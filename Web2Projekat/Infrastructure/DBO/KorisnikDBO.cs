@@ -1,8 +1,8 @@
 ﻿using Web2Projekat.Models;
 
-namespace Web2Projekat.Dto
+namespace Web2Projekat.Infrastructure.DBO
 {
-    public class KorisnikDto
+    public class KorisnikDBO
     {
         public string KIme { get; set; }
         public string Lozinka { get; set; }
@@ -15,8 +15,10 @@ namespace Web2Projekat.Dto
         //overriduj datum
         public string DRodjenja { get; set; }
 
-        public TIP_KORISNIKA Tip { get; set; }
+        public int Tip { get; set; }
 
-        //dodaj upload slike
+        public string Slika { get; set; }
+
+        
     }
 }

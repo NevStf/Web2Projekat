@@ -16,7 +16,8 @@
 
         public TIP_KORISNIKA Tip { get; set; }
       
-        //dodaj upload slike
+        public string Slika { get; set; }  
+
 
     }
 }
