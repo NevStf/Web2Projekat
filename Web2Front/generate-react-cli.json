@@ -1,0 +1,14 @@
+{
+  "usesTypeScript": false,
+  "usesStyledComponents": true,
+  "testLibrary": "None",
+  "component": {
+    "default": {
+      "path": "web2front/src/components",
+      "withStyle": false,
+      "withTest": false,
+      "withStory": false,
+      "withLazy": false
+    }
+  }
+}
