@@ -9,9 +9,9 @@ namespace Web2Projekat.Interfaces
         //public Task<IEnumerable<Korisnik>>
 
         public Task<Korisnik> DobaviKorisnika(string KIme);
-        Task<string> Registracija(RegistracionaForma rf, string KIme);
-        Task<string> Autentikacija(RegistracionaForma rf);
-        Task<bool> IzmeniKorisnika(RegistracionaForma rf, string KIme);
+        Task<string> Registracija(RegistracionaForma forma);
+        Task<string> Autentikacija(PrijavaForma forma);
+        Task<bool> IzmeniKorisnika(RegistracionaForma forma, string KIme);
        
 
     }

@@ -1,15 +1,125 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Web2Projekat.Interfaces;
+using Web2Projekat.Models;
+using Web2Projekat.Services;
 
 namespace Web2Projekat.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AuthenticationController : Controller
+    public class AuthenticationController : ControllerBase
     {
-        private
-        public IActionResult Index()
+        IAuth _authService;
+
+        public AuthenticationController(IAuth authService)
         {
-            return View();
+            _authService = authService;
         }
+
+        //[JwtUserAuthorization]
+        [HttpGet]
+        public IActionResult GetKorisnik() 
+        {
+            var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
+            try
+            {
+                var response = _authService.DobaviKorisnika(korisnickoIme);
+                return Ok(new { StatusCode = 200, User = response.Result });
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("Konekcija sa bazom nije ok"))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return BadRequest(new { StatusCode = 403, Message = e.Message });
+            }
+        }
+
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(PrijavaForma forma)
+        {
+            try
+            {
+                var response = _authService.Autentikacija(forma);
+                return Ok(new { StatusCode = 200, Token = response.Result });
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("Konekcija sa bazom nije ok"))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return BadRequest(new { StatusCode = 403, Message = e.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegistracionaForma forma)
+        {
+            if (forma.Lozinka == "")
+            {
+                forma.Lozinka = "somedummypass98/A";
+                forma.PotvrdaLozinka = "somedummypass98/A";
+            }
+
+            try
+            {
+                string token = await _authService.Registracija(forma);
+                return Ok(new { StatusCode = 200, Token = token });
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("Konekcija sa bazom nije ok"))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return BadRequest(new { StatusCode = 400, Message = e.Message });
+            }
+        }
+
+        //[JwtUserAuthorization]
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateUserInfo(RegistracionaForma forma)
+        {
+            var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
+            var role = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (korisnickoIme == null)
+            {
+                return Unauthorized("Morate se ulogovati!");
+            }
+            try
+            {
+                try
+                {
+                    var v = await _authService.IzmeniKorisnika(forma, korisnickoIme);
+                    if (!v)
+                    {
+                        return BadRequest(new { StatusCode = 400, Message = "Uneta email adresa je u upotrebi." });
+                    }
+                    return Ok(new { StatusCode = 200, Message = "Uspesno izmenjen korisnik." });
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.Equals("Konekcija sa bazom nije ok."))
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError);
+                    }
+
+                    return BadRequest(new { StatusCode = 400, Message = e.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+
+        }
+
+
     }
 }

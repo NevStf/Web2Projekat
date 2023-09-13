@@ -34,6 +34,19 @@
             Slika = slika;
         }
 
+        public Korisnik(string kime, string lozinka, string ime, string prezime, string adresa, string emailadresa, DateTime datumrodjenja, TIP_KORISNIKA tp, string slika)
+        {
+            KIme = kime;
+            Lozinka = lozinka;
+            Ime = ime;
+            Prezime = prezime;
+            Adresa = adresa;
+            EmailAdresa = emailadresa;
+            DatumRodjenja = datumrodjenja;
+            Tip = tp;
+            Slika = slika;
+        }
+
         public Korisnik() { }
     }
 }
