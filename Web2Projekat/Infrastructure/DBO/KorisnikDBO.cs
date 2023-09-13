@@ -19,6 +19,8 @@ namespace Web2Projekat.Infrastructure.DBO
 
         public string Slika { get; set; }
 
+        public int Status { get; set; }
+
         
     }
 }
