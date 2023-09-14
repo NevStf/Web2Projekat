@@ -56,6 +56,9 @@ namespace Web2Projekat.Infrastructure.DBContext
 
                 entitet.Property(e => e.Slika)
                 .IsRequired();
+
+                entitet.Property(e => e.Status)
+                .IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);

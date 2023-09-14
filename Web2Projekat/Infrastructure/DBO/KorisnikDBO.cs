@@ -11,16 +11,9 @@ namespace Web2Projekat.Infrastructure.DBO
         public string Adresa { get; set; }
         public string EmailAdresa { get; set; }
         public DateTime DatumRodjenja { get; set; }
-
-        //overriduj datum
-        public string DRodjenja { get; set; }
-
         public int Tip { get; set; }
-
         public string Slika { get; set; }
-
         public int Status { get; set; }
-
         
     }
 }

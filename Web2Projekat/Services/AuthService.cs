@@ -130,7 +130,7 @@ namespace Web2Projekat.Services
             }
 
             string hashLozinka = LozinkaHash(forma.Lozinka);
-            Korisnik kor = new Korisnik(forma.KIme, forma.Lozinka, forma.Ime, forma.Prezime, forma.Adresa,forma.EmailAdresa, forma.DatumRodjenja, forma.Tip, forma.Slika);
+            Korisnik kor = new Korisnik(forma.KIme, hashLozinka, forma.Ime, forma.Prezime, forma.Adresa,forma.EmailAdresa, forma.DatumRodjenja, forma.Tip, forma.Slika);
 
             _korisnikService.SacuvajKorisnika(kor);
             

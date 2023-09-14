@@ -10,31 +10,11 @@
         public string Adresa { get; set; }
         public string EmailAdresa { get; set; }
         public DateTime DatumRodjenja { get; set; }
-
-        //overriduj datum
-       // public string DRodjenja { get; set; }
-
-        public TIP_KORISNIKA Tip { get; set; }
-      
+        public int Tip { get; set; }
         public string Slika { get; set; }  
-        //public int Status { get; set; }
-
         public int Status { get; set; }
 
         public Korisnik(string kime, string lozinka, string ime, string prezime, string adresa, string emailadresa, DateTime datumrodjenja, int tp, string slika)
-        {
-            KIme = kime;
-            Lozinka = lozinka;
-            Ime = ime;
-            Prezime = prezime;
-            Adresa = adresa;
-            EmailAdresa = emailadresa;
-            DatumRodjenja = datumrodjenja;
-            Tip = (TIP_KORISNIKA)tp;
-            Slika = slika;
-        }
-
-        public Korisnik(string kime, string lozinka, string ime, string prezime, string adresa, string emailadresa, DateTime datumrodjenja, TIP_KORISNIKA tp, string slika)
         {
             KIme = kime;
             Lozinka = lozinka;

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web2Projekat.Infrastructure.DBContext;
 
@@ -10,9 +11,11 @@ using Web2Projekat.Infrastructure.DBContext;
 namespace Web2Projekat.Migrations
 {
     [DbContext(typeof(KorisniciDbContext))]
-    partial class KorisniciDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230914191204_DodavanjeStatusaAgain")]
+    partial class DodavanjeStatusaAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -23,6 +26,10 @@ namespace Web2Projekat.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Adresa")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DRodjenja")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
