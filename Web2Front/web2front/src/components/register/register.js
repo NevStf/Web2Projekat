@@ -2,45 +2,53 @@ import React, { useEffect, useState }  from 'react';
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import { userRegister } from '../../services/authService';
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  Field,
+  FieldProps,
+} from 'formik';
 
 
 function Register() {
 
   const validationSchema = Yup.object({
-    email:Yup.string()
+    emailAdresa:Yup.string()
         .email("Incorrect email format")
         .required("Email is required"),
-    name: Yup.string().required("Name is required"),
-    lastName: Yup.string().required("Last name is required"),
-    userName: Yup.string().required("Username is required"),
-    password: Yup.string().required("Password is required")
+    ime: Yup.string().required("Name is required"),
+    prezime: Yup.string().required("Last name is required"),
+    kIme: Yup.string().required("Username is required"),
+    lozinka: Yup.string().required("Password is required")
         .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         "Password must be at least 8 characters long and it must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character."
     ),
-    confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords are not matching").required("Password confirmation is required"),
-    dateOfBirth: Yup.string().required("date of birth is required"),
-    address: Yup.string().required("Address is required"),
-    type: Yup.string().required("User type is required"),      
+    potvrdaLozinka: Yup.string().oneOf([Yup.ref("lozinka"), null], "Passwords are not matching").required("Password confirmation is required"),
+    datumRodjenja: Yup.string().required("date of birth is required"),
+    adresa: Yup.string().required("Address is required"),
+    tip: Yup.string().required("User type is required"),      
 })
 
   const formik = useFormik({
   initialValues: {
-      email: "",
-      name: "",
-      lastName: "",
-      userName: "",
-    password: "",
-    confirmPassword: "",
-    dateOfBirth: "",
-    address: "",
-    type: "",
+    emailAdresa: "",
+    ime: "",
+      prezime: "",
+      kIme: "",
+      lozinka: "",
+    potvrdaLozinka: "",
+    datumRodjenja: "",
+    adresa: "",
+    tip: "",
+    slika:"",
+    status:0,
   },
   validationSchema,
-  onSubmit: (values) => {
-    // Implementiraj logiku za slanje podataka na server
-    console.log(values);
+  onSubmit: async (values) => {
+    await userRegister(values);
   },
 
   });
@@ -59,102 +67,102 @@ function Register() {
                     Logo
                   </h2>
                   <div className="mb-3">
-                    <Form>
-                    <Form.Group className="mb-3" controlId="userName">
+                    <Form onSubmit={formik.handleSubmit}>
+                    <Form.Group className="mb-3" controlId="kIme">
                         <Form.Label className="text-center">Username</Form.Label>
                         <Form.Control type="text" placeholder="Enter Username"
-                        value={values.userName}
+                        value={values.kIme}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         />  
-                         {touched.userName && errors.userName && <div>{errors.userName}</div>}
+                         {touched.kIme && errors.kIme && <div>{errors.kIme}</div>}
                       </Form.Group>
                       
 
-                      <Form.Group className="mb-3" controlId="name">
+                      <Form.Group className="mb-3" controlId="ime">
                         <Form.Label className="text-center">Name</Form.Label>
                         <Form.Control type="text" placeholder="Enter Name"
-                         value={values.name}
+                         value={values.ime}
                          onChange={handleChange}
                          onBlur={handleBlur}
                          />   
-                             {touched.name && errors.name && <div>{errors.name}</div>}
+                             {touched.ime && errors.ime && <div>{errors.ime}</div>}
                       </Form.Group>
 
-                      <Form.Group className="mb-3" controlId="lastName">
+                      <Form.Group className="mb-3" controlId="prezime">
                         <Form.Label className="text-center">Last name</Form.Label>
                         <Form.Control type="text" placeholder="Enter LastName"
-                        value={values.lastName}
+                        value={values.prezime}
                         onChange={handleChange}
                         onBlur={handleBlur}
                          />
-                          {touched.lastName && errors.lastName && <div>{errors.lastName}</div>}
+                          {touched.prezime && errors.prezime && <div>{errors.prezime}</div>}
                       </Form.Group>
 
-                      <Form.Group className="mb-3" controlId="email">
+                      <Form.Group className="mb-3" controlId="emailAdresa">
                         <Form.Label className="text-center">
                           Email address
                         </Form.Label>
                         <Form.Control type="email" placeholder="Enter email"
-                                value={values.email}
+                                value={values.emailAdresa}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 />  
-                                 {touched.email && errors.email && <div>{errors.email}</div>}
+                                 {touched.emailAdresa && errors.emailAdresa && <div>{errors.emailAdresa}</div>}
                       </Form.Group>
 
                       <Form.Group
                         className="mb-3"
-                        controlId="password"
+                        controlId="lozinka"
                       >
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Password" 
-                        value={values.password}
+                        value={values.lozinka}
                         onChange={handleChange}
                         onBlur={handleBlur}
                          />
-                          {touched.password && errors.password && <div>{errors.password}</div>}
+                          {touched.lozinka && errors.lozinka && <div>{errors.lozinka}</div>}
                       </Form.Group>
 
                       <Form.Group
                         className="mb-3"
-                        controlId="confirmPassword"
+                        controlId="potvrdaLozinka"
                       >
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control type="password" placeholder="Password"
-                        value={values.confirmPassword}
+                        value={values.potvrdaLozinka}
                         onChange={handleChange}
                         onBlur={handleBlur}
                           />
-                           {touched.confirmPassword && errors.confirmPassword && <div>{errors.confirmPassword}</div>}
+                           {touched.potvrdaLozinka && errors.potvrdaLozinka && <div>{errors.potvrdaLozinka}</div>}
                       </Form.Group>
 
-                      <Form.Group className="mb-3" controlId="address">
+                      <Form.Group className="mb-3" controlId="adresa">
                         <Form.Label className="text-center">Address</Form.Label>
                         <Form.Control type="text" placeholder="Enter Address"
-                        value={values.address}
+                        value={values.adresa}
                         onChange={handleChange}
                         onBlur={handleBlur}
                           />
-                           {touched.address && errors.address && <div>{errors.address}</div>}
+                           {touched.adresa && errors.adresa && <div>{errors.adresa}</div>}
                       </Form.Group>
 
-                      <Form.Group controlId="dateOfBirth">
+                      <Form.Group controlId="datumRodjenja">
                         <Form.Label>Date</Form.Label>
                         <Form.Control
                           type="date"
-                          value={values.dateOfBirth}
+                          value={values.datumRodjenja}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         />
-                         {touched.dateOfBirth && errors.dateOfBirth && <div>{errors.dateOfBirth}</div>}
+                         {touched.datumRodjenja && errors.datumRodjenja && <div>{errors.datumRodjenja}</div>}
                       </Form.Group>
 
-                      <Form.Group controlId="type">
+                      <Form.Group controlId="tip">
                         <Form.Label>User Role</Form.Label>
                         <Form.Control
                           as="select"
-                          value={values.type}
+                          value={values.tip}
                         onChange={handleChange}
                         onBlur={handleBlur}
                          
@@ -162,7 +170,7 @@ function Register() {
                           <option value="0">Customer</option>
                           <option value="1">Seller</option>
                         </Form.Control>
-                        {touched.type && errors.type && <div>{errors.type}</div>}
+                        {touched.tip && errors.tip && <div>{errors.tip}</div>}
                       </Form.Group>
 
                       <Form.Group
