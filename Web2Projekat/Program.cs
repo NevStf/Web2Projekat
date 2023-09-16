@@ -31,11 +31,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IAuth, AuthService>();
 builder.Services.AddScoped<IKorisnik, KorisnikService>();
 builder.Services.AddScoped<IKorisnikRepository, KorisnikRepository>();
+builder.Services.AddScoped<IArtikal, ArtikalService>();
+builder.Services.AddScoped<IArtikalRepository, ArtikalRepository>();
+builder.Services.AddScoped<IPorudzbina, PorudzbinaService>();
+builder.Services.AddScoped<IPorudzbinaRepository, PorudzbinaRepository>();
 
 builder.Services.AddScoped<KorisniciDbContext>();
+builder.Services.AddScoped<ArtikliDbContext>();
 var mappingConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new MappingProfile());
+    mc.AddProfile(new MappingProfileDtos());
 });
 
 IMapper mapper = mappingConfig.CreateMapper();

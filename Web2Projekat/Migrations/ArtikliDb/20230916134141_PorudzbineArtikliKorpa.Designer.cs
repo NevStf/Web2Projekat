@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web2Projekat.Infrastructure.DBContext;
 
@@ -10,9 +11,11 @@ using Web2Projekat.Infrastructure.DBContext;
 namespace Web2Projekat.Migrations.ArtikliDb
 {
     [DbContext(typeof(ArtikliDbContext))]
-    partial class ArtikliDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230916134141_PorudzbineArtikliKorpa")]
+    partial class PorudzbineArtikliKorpa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -51,7 +54,7 @@ namespace Web2Projekat.Migrations.ArtikliDb
                     b.HasKey("ID")
                         .HasName("PK_IDArikla");
 
-                    b.ToTable("Artikal", (string)null);
+                    b.ToTable("Artikli", (string)null);
                 });
 
             modelBuilder.Entity("Web2Projekat.Infrastructure.DBO.KorpaArtikalDBO", b =>
@@ -115,9 +118,45 @@ namespace Web2Projekat.Migrations.ArtikliDb
                     b.ToTable("Porudzbine", (string)null);
                 });
 
+            modelBuilder.Entity("Web2Projekat.Models.Artikal", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Cena")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Fotografija")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Kolicina")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("KolicinaNaStanju")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Naziv")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Opis")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Prodavac")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Artikal");
+                });
+
             modelBuilder.Entity("Web2Projekat.Infrastructure.DBO.KorpaArtikalDBO", b =>
                 {
-                    b.HasOne("Web2Projekat.Infrastructure.DBO.ArtikalDBO", "Artikal")
+                    b.HasOne("Web2Projekat.Models.Artikal", "Artikal")
                         .WithMany()
                         .HasForeignKey("ArtikalId")
                         .OnDelete(DeleteBehavior.Cascade)

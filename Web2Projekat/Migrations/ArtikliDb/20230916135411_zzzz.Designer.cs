@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web2Projekat.Infrastructure.DBContext;
 
@@ -10,9 +11,11 @@ using Web2Projekat.Infrastructure.DBContext;
 namespace Web2Projekat.Migrations.ArtikliDb
 {
     [DbContext(typeof(ArtikliDbContext))]
-    partial class ArtikliDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230916135411_zzzz")]
+    partial class zzzz
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");

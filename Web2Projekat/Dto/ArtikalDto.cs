@@ -1,15 +1,12 @@
-﻿namespace Web2Projekat.Infrastructure.DBO
+﻿namespace Web2Projekat.Dto
 {
-    public class ArtikalDBO
+    public class ArtikalDto
     {
         public int ID { get; set; }
         public string Naziv { get; set; }
-        public string Prodavac { get; set; }
-        public float Cena { get; set; }
-        public int Kolicina { get; set; }
+        public double Cena { get; set; }
         public string Opis { get; set; }
         public string Fotografija { get; set; }
-
         public int KolicinaNaStanju { get; set; }
     }
 }
