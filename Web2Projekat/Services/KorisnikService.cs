@@ -37,5 +37,11 @@ namespace Web2Projekat.Services
             var lista = await _korisnikRepository.SviKorisniciAsync();
             return _mapper.Map<List<KorisnikDBO>, List<Korisnik>>(lista);
         }
+
+        public async Task<Korisnik> VerifikujKorisnika(string KIme, int status)
+        {
+           var kor = await _korisnikRepository.VerifikujKorisnika(KIme, status);
+            return _mapper.Map<KorisnikDBO, Korisnik>(kor);
+        }
     }
 }

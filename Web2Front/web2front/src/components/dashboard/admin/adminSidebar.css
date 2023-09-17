@@ -1,0 +1,24 @@
+.navlink .tab-text {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .navlink {
+    background-color: rgb(197, 197, 197);
+    width: 300px;
+    margin-top: 100px;
+    border-radius: 25px;
+    font-size: 18px;
+    padding: 30px 0px;
+  }
+  .tab-link {
+    padding: 20px;
+  }
+  .tab-icon {
+    width: 50px;
+  }
+  .tab:hover {
+    color: white !important;
+    background-color: gray;
+  }
+  

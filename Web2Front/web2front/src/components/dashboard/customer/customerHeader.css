@@ -1,0 +1,101 @@
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centriraj linkove */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #0078d4;
+    color: #ffffff;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .top-bar a {
+    text-decoration: none;
+    color: #ffffff; /* Set the color to white */
+  }
+  
+  .topbar-style {
+    display: flex;
+    flex-flow: row nowrap;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.8s;
+  }
+  
+  .tab:hover .tab-icon {
+    animation: rotateScaleAnimation 1.4s ease-in-out infinite;
+  }
+  
+  @keyframes rotateScaleAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes changingTextColor {
+    0% {
+      transform: color(black);
+    }
+    50% {
+      transform: color(gray);
+    }
+    100% {
+      transform: color(white);
+    }
+  }
+  
+  .tab-link {
+    text-decoration: none;
+  }
+  
+  .tab:hover .tab-text span {
+    animation: changingTextColor 1.4s ease-in-out infinite;
+  }
+  
+  .tab-icon {
+    font-size: 20px;
+    color: #ffffff;
+  }
+  
+  .tab-text {
+    margin-left: 5px;
+    color: #ffffff; /* Set the color to white */
+  }
+  
+  .logout-tab {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logout-button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logout-button .tab-icon {
+    animation: rotateScaleAnimation 0.8s ease-in-out infinite;
+  }
+  .tab-icon-window {
+    margin-bottom: -2px;
+  }
+  

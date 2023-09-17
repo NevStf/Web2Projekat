@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -105,6 +107,9 @@ namespace Web2Projekat.Services
             }
         }
 
+
+
+
         public async Task<string> Registracija(RegistracionaForma forma)
         {
             IEnumerable<Korisnik> sviKorisnici;
@@ -169,5 +174,36 @@ namespace Web2Projekat.Services
             return tokenHandler.WriteToken(token);
         }
 
+        public async Task<Korisnik> Verifikuj(string kIme, int status)
+        {
+            try
+            {
+                Korisnik korisnik = await _korisnikService.DobaviKorisnika(kIme);
+
+                MailMessage newMail = new MailMessage();
+                SmtpClient client = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("monsterchild98@gmail.com", _configuration["email"]),
+                    EnableSsl = true,
+                };
+                newMail.From = new MailAddress("monsterchild98@gmail.com", "WebShoppy");
+                newMail.To.Add(korisnik.EmailAdresa);
+                newMail.Subject = "Verifikacija naloga";
+                newMail.IsBodyHtml = true;
+                newMail.Body = "<h3> Vas nalog je verifikovan, postali ste prodavac.<h3>";
+
+                client.Send(newMail);
+                var kor = await _korisnikService.VerifikujKorisnika(kIme, status);
+
+                return kor;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

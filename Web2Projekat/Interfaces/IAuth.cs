@@ -5,9 +5,7 @@ namespace Web2Projekat.Interfaces
     public interface IAuth
     {
         public Task<IEnumerable<Korisnik>> DobaviSve();
-
-        //public Task<IEnumerable<Korisnik>>
-
+        public Task<Korisnik> Verifikuj(string kIme, int status);
         public Task<Korisnik> DobaviKorisnika(string KIme);
         Task<string> Registracija(RegistracionaForma forma);
         Task<string> Autentikacija(PrijavaForma forma);

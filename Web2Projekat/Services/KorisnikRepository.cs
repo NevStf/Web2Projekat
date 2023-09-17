@@ -2,6 +2,7 @@
 using Web2Projekat.Infrastructure.DBContext;
 using Web2Projekat.Infrastructure.DBO;
 using Web2Projekat.Interfaces;
+using Web2Projekat.Models;
 
 namespace Web2Projekat.Services
 {
@@ -71,6 +72,22 @@ namespace Web2Projekat.Services
             try
             {
                 return await _dbcontext.Korisnici.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<KorisnikDBO> VerifikujKorisnika(string KIme, int status)
+        {
+            try
+            {
+                var izkorisnik = _dbcontext.Korisnici.FirstOrDefault(x => x.KIme == KIme);
+                izkorisnik.Status = status;
+                await _dbcontext.SaveChangesAsync();
+                return await DobaviKorisnika(KIme);
             }
             catch (Exception ex)
             {

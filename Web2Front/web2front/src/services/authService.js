@@ -1,4 +1,6 @@
 export const userLogin = async (korisnickoIme, lozinka) => {
+  console.log(process.env.REACT_APP_REGISTER_ENDPOINT);
+  console.log(korisnickoIme, lozinka)
     return fetch(process.env.REACT_APP_LOGIN_ENDPOINT, {
       method: "POST",
       headers: {
@@ -19,5 +21,19 @@ export const userLogin = async (korisnickoIme, lozinka) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
+    });
+  };
+ 
+  export const userLoginGoogle = async (korisnickoIme, lozinka) => {
+
+    return fetch(process.env.REACT_APP_REGISTER_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        korisnickoIme,
+        lozinka,
+      }),
     });
   };

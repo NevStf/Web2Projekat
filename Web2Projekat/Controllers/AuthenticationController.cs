@@ -25,8 +25,28 @@ namespace Web2Projekat.Controllers
             var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
             try
             {
-                var response = _authService.DobaviKorisnika(korisnickoIme);
+                var response = _authService.DobaviKorisnika("hehexD");
                 return Ok(new { StatusCode = 200, User = response.Result });
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("Konekcija sa bazom nije ok"))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return BadRequest(new { StatusCode = 403, Message = e.Message });
+            }
+        }
+
+        [HttpGet("prodavci")]
+        public IActionResult GetProdavce()
+        {
+            var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
+            try
+            {
+                var response = _authService.DobaviSve();
+                var prodavci = response.Result.Where(x => x.Tip == 1);
+                return Ok(new { StatusCode = 200, Users = prodavci });
             }
             catch (Exception e)
             {
@@ -118,6 +138,21 @@ namespace Web2Projekat.Controllers
                 return Problem(ex.Message);
             }
 
+        }
+
+        //[JwtUserAuthorization]
+        [HttpPost("verifikuj/{korisnickoIme}")]
+        public async Task<IActionResult> Verifikuj([FromRoute] string korisnickoIme, int status)
+        {
+            try
+            {
+                var users = await _authService.Verifikuj(korisnickoIme, status);
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
 
 

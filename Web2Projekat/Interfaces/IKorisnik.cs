@@ -7,8 +7,7 @@ namespace Web2Projekat.Interfaces
         public void SacuvajKorisnika(Korisnik korisnik);
 
         public Task IzmeniKorisnikaAsync(Korisnik korisnik);
-        //dodaj kasnije
-        //public Task VerifikujKorisnika(string KIme, int status);
+        public Task<Korisnik> VerifikujKorisnika(string KIme, int status);
         public Task<List<Korisnik>> SviKorisniciAsync();
         public Task<Korisnik> DobaviKorisnika(string KIme);
     }

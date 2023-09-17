@@ -1,0 +1,161 @@
+/* profile.css */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .documentcardtitle {
+    margin-top: 100px;
+  }
+  
+  .card {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: left;
+    max-width: 600px; /* Increased the max-width to match register form */
+    margin-top: 100px;
+    animation: fadeIn 0.5s ease-in;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+  }
+  
+  .card-header .card-title {
+    margin-top: 15px;
+  }
+  
+  .card-content {
+    padding: 20px;
+    width: 300px;
+    max-height: 550px;
+  }
+  
+  .edit-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover .edit-icon {
+    animation: colorChange 0.6s ease-in-out;
+  }
+  
+  .edit-icon {
+    margin-right: 5px;
+    color: #0078d4;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+  
+  .blue-text {
+    color: #0078d4;
+  }
+  
+  .loading-text {
+    color: #0078d4;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .form-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 16px;
+  }
+  
+  .form-fields .ms-TextField {
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .form-fields .ms-Label {
+    font-size: 12px;
+  }
+  
+  .form-fields .ms-TextField-errorMessage {
+    font-size: 12px;
+  }
+  
+  .submit-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .submit-button {
+    padding-bottom: 20px; /* Add bottom padding */
+  }
+  .upload-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 16px;
+  }
+  
+  .upload-label:hover {
+    color: #0078d4;
+  }
+  
+  .upload-icon {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+  
+  /* Hide Choose file button */
+  .upload-label input[type="file"] {
+    display: none;
+  }
+  
+  /* Style the upload icon display */
+  .upload-label::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #0078d4;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  
+  .primary-button {
+    background-color: gray !important;
+    border: none;
+  }
+  
+  .date-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  @keyframes colorChange {
+    0% {
+      color: #0078d4;
+    }
+    50% {
+      color: #000000;
+    }
+    100% {
+      color: #0078d4;
+    }
+  }
+  
