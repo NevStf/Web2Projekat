@@ -3,14 +3,14 @@ import { Outlet, useNavigate } from "react-router-dom";
 import AdminHeader from "./admin/adminHeader";
 import AdminSidebar from "./admin/adminSidebar";
 import "./AdminDashboard.css";
+import Profile from "./admin/profile";
 
 function AdminDashboard() {
   const navigate = useNavigate();
 
   return (
     <div className="container">
-      <AdminHeader />
-      <AdminSidebar />
+      <Profile />
     </div>
   );
 }

@@ -1,5 +1,5 @@
   export const apiArticleId = async (articleId, token) => {
-    return fetch(`${process.env.REACT_APP_ARTICLES_ENDPOINT}${articleId}`, {
+    return fetch(`${process.env.REACT_APP_ARTICLES_ENDPOINT}/${articleId}`, {
       headers: {
         Token: token,
       },

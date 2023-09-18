@@ -12,6 +12,13 @@ import ContextProvider from "./context/contextProvider";
 import Profile from "./components/dashboard/admin/profile";
 import Orders from "./components/dashboard/admin/orders";
 import Verification from "./components/dashboard/admin/verification";
+import SellerDashboard from "./components/dashboard/seller/sellerDashboard";
+import SellerProfile from "./components/dashboard/seller/sellerProfile";
+import SellerProducts from "./components/dashboard/seller/sellerProducts";
+import SellerNewProduct from "./components/dashboard/seller/sellerNewProduct";
+import UpdateProduct from "./components/dashboard/seller/sellerUpdateProduct";
+import SellerOrders from "./components/dashboard/seller/sellerOrders";
+import SellersOldOrders from "./components/dashboard/seller/sellerOldOrders";
 
 
 
@@ -69,6 +76,42 @@ function App() {
               //element={<ProtectedRoute Component={CustomerMyOrders} />}
             />
             {/* prodavac rute */}
+            <Route
+              path="/seller-dashboard"
+              element={<SellerDashboard/>}
+              // element={<ProtectedRoute Component={SellerDashboard} />}
+            />
+            <Route
+              path="/seller-dashboard/profile"
+              element={<SellerProfile/>}
+             // element={<ProtectedRoute Component={SellerProfile} />}
+            />
+            <Route
+              path="/seller-dashboard/products"
+              element={<SellerProducts/>}
+              //element={<ProtectedRoute Component={SellersProducts} />}
+            />
+            <Route
+              path="/seller-dashboard/new-product"
+              element={<SellerNewProduct/>}
+              // element={<ProtectedRoute Component={SellerNewProduct} />}
+            />
+            <Route
+              path="/seller-dashboard/update-product/:productId"
+              element={<UpdateProduct/>}
+              // element={<ProtectedRoute Component={UpdateProduct} />}
+            />
+            <Route
+              path="/seller-dashboard/old-orders"
+              element={<SellerOrders/>}
+              // element={<ProtectedRoute Component={SellersOrdersPage} />}
+            />
+            <Route
+              path="/seller-dashboard/new-orders"
+              element={<SellersOldOrders/>}
+              //element={<ProtectedRoute Component={SellersOldOrdersPage} />}
+            />
+
         </Routes>
         </ContextProvider>
       </AuthProvider>

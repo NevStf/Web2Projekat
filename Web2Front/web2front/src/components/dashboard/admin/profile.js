@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Dialog, DialogType } from "@fluentui/react";
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { Dialog, DialogType, Image } from "@fluentui/react";
 import { Pen } from "react-bootstrap-icons";
 import { AuthContext } from "../../../context/authContext";
 import AdminHeader from "./adminHeader";
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Users, usersUpdate } from "../../../services/userService";
 import AdminSidebar from "./adminSidebar";
 import { Row, Col } from "react-bootstrap";
-import { ImageEditFilled } from "@fluentui/react-icons";
+import { ArrowUpload16Filled, ImageEditFilled } from "@fluentui/react-icons";
 
 function Profile() {
   const { token } = useContext(AuthContext);
@@ -51,16 +51,28 @@ function Profile() {
     }
   }, [token]);
 
+  const fileInputRef = useRef(null);
+  const [error, setError] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleImageUpload = () => {
+    const file = fileInputRef.current.files[0];
+    setSelectedFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        setImgPath(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const { tip, ...userProfile } = userData || {};
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    // Perform file upload logic
-  };
+ 
 
   const handleSubmit = async () => {
     console.log(adresa);
@@ -171,19 +183,37 @@ function Profile() {
                         onChange={(event) => setAddress(event.target.value)}
                       />
                     </div>
-                    {/* <div>
-                      <Form.Label className="gray-text">
-                        Putanja do slike:
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        defaultValue={slika}
-                        onChange={(event) => setImgPath(event.target.value)}
-                      />
-                    </div> */}
+                    <Form.Group>
+                        <Form.Label>Choose Image</Form.Label>
+                        <div className="upload-label">
+                            <div className="upload-icon">
+                            <ArrowUpload16Filled />
+                            </div>
+                            <Form.Control
+                            type="text"
+                            value={selectedFile ? fileInputRef.current.files[0].name : "Choose Image"}
+                            readOnly
+                            />
+                        </div>
+                        <Form.Control
+                            type="file"
+                            id="productImageInput"
+                            ref={fileInputRef}
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                        />
+                    </Form.Group>
                   </Form>
                 ) : (
                   <div className="stack" tokens={{ childrenGap: 20 }}>
+                    <div className="profile-image">
+                    <Image
+                      src={slika || "placeholder-image-url"}
+                      alt="Profile Image"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                     <div className="gray-text py-2">
                       Ime: <span className="font-bold">{ime}</span>
                     </div>
@@ -230,7 +260,7 @@ function Profile() {
         dialogContentProps={{
           type: DialogType.normal,
           title: "Error",
-          subText: "Username or email is already taken.",
+          subText: "Email is already taken.",
         }}
       />
     </div>

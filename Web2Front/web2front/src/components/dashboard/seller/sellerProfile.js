@@ -1,20 +1,25 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import { Dialog, DialogType, Image } from "@fluentui/react";
-import Form from "react-bootstrap/Form";
 import { Pen } from "react-bootstrap-icons";
+import Form from "react-bootstrap/Form";
 import { AuthContext } from "../../../context/authContext";
-import CustomerHeader from "./customerHeader";
-import AdminHeader from "../admin/adminHeader";
-import "./customerProfile.css";
+import "./sellerProfile.css";
+import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { usersUpdate, Users } from "../../../services/userService";
-import CustomerSidebar from "./customerSidebar";
+import { Button } from "react-bootstrap";
+import SellerSidebar from "./sellerSidebar";
 import { Row, Col, Container } from "react-bootstrap";
-import { ArrowUp16Filled } from "@fluentui/react-icons";
+import {
+  Clock16Filled,
+  CheckboxChecked16Filled,
+  BugFilled,
+  ArrowUp16Filled,
+} from "@fluentui/react-icons";
+import { Dialog, DialogType, Image } from "@fluentui/react";
+import { Users, usersUpdate } from "../../../services/userService";
+import AdminHeader from "../admin/adminHeader";
+import SellerHeader from "./sellerHeader";
 
-function CustomerProfile() {
+function SellerProfile() {
   const { token } = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -33,7 +38,6 @@ function CustomerProfile() {
       try {
         const response = await Users(token);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
           setUserData(data.user);
           setFirstName(data.user.ime);
@@ -45,14 +49,14 @@ function CustomerProfile() {
           setImgPath(data.user.slika);
         }
       } catch (error) {
-        console.error( error);
+        console.error("Error:", error);
       }
     };
 
     if (token) {
       fetchData();
     }
-  }, [token]); 
+  }, [token]);
 
   const {  tip, status, ...userProfile } = userData || {};
 
@@ -74,13 +78,14 @@ function CustomerProfile() {
     };
     reader.readAsDataURL(file);
   };
+
   const handleSubmit = async () => {
-    
+    console.log(adresa);
     const formData = {
       ime,
       prezime,
       kIme,
-      datumRodjenja: new Date(datumRodjenja).toISOString(),
+      datumRodjenja: new Date(datumRodjenja).toISOString(), // Convert the date to ISO format for sending to the backend
       tip,
       adresa,
       slika,
@@ -90,8 +95,6 @@ function CustomerProfile() {
       status,
     };
 
-    console.log(formData);
-
     try {
       const response = await usersUpdate(token, formData);
 
@@ -99,10 +102,10 @@ function CustomerProfile() {
 
       if (response.ok) {
         console.log("Profile updated successfully:", data);
-        setUserData(formData);
-        setIsEditMode(false);
+        setUserData(formData); // update local userData state with the new data
+        setIsEditMode(false); // exit edit mode
       } else if (response.status === 400) {
-        setIsDialogVisible(true);
+        setIsDialogVisible(true); // show the dialog
       } else {
         console.log("Error:", data.statusCode);
       }
@@ -113,30 +116,29 @@ function CustomerProfile() {
 
   return (
     <div className="container">
-      <CustomerHeader />
+      <SellerHeader />
       <Row>
-        <Col md={3}>
-          <CustomerSidebar />
+        <Col sm={3}>
+          <SellerSidebar />
         </Col>
-        <Col md={9}>
+        <Col sm={9}>
           <div className="card documentcardtitle">
             {userProfile ? (
               <div className="">
-                <div>
-                  <h3 className="card-title py-4 text-center">User Profile</h3>
-                  <div
-                    onClick={handleEditClick}
-                    className="ms-3 mx-auto d-block cursor-pointer"
-                  >
-                    <span className="pe-2">Edit profile </span>
-                    <Pen className={` ${isEditMode ? "active" : ""}`} />
+                <div className="card-header">
+                  <h3 className="card-title"> User Profile</h3>
+                  <div className="ms-3 cursor-pointer">
+                    <Pen
+                      onClick={handleEditClick}
+                      className={` ${isEditMode ? "active" : ""}`}
+                    />
                   </div>
                 </div>
-                <div className="pt-5">
+                <div className="card-content">
                   {isEditMode ? (
-                    <Form className="stack" style={{ gap: "10px" }}>
+                    <Form.Group className="stack-card" style={{ gap: "10px" }}>
                       <div>
-                        <Form.Label className="gray-text">Name:</Form.Label>
+                        <div className="gray-text">Name:</div>
                         <Form.Control
                           type="text"
                           defaultValue={ime}
@@ -144,7 +146,7 @@ function CustomerProfile() {
                         />
                       </div>
                       <div>
-                        <Form.Label className="gray-text">Lastname:</Form.Label>
+                        <div className="gray-text">Lastname:</div>
                         <Form.Control
                           type="text"
                           defaultValue={prezime}
@@ -152,7 +154,7 @@ function CustomerProfile() {
                         />
                       </div>
                       <div>
-                        <Form.Label className="gray-text">Username:</Form.Label>
+                        <div className="gray-text">Username:</div>
                         <Form.Control
                           type="text"
                           defaultValue={kIme}
@@ -160,7 +162,7 @@ function CustomerProfile() {
                         />
                       </div>
                       <div>
-                        <Form.Label className="gray-text">Email:</Form.Label>
+                        <div className="gray-text">Email:</div>
                         <Form.Control
                           type="email"
                           defaultValue={emailAdresa}
@@ -168,7 +170,7 @@ function CustomerProfile() {
                         />
                       </div>
                       <div>
-                        <Form.Label className="gray-text">DOB:</Form.Label>
+                        <div className="gray-text">DOB:</div>
                         <Form.Control
                           type="date"
                           className="date-input"
@@ -177,7 +179,7 @@ function CustomerProfile() {
                         />
                       </div>
                       <div>
-                        <Form.Label className="gray-text">Address:</Form.Label>
+                        <div className="gray-text">Address:</div>
                         <Form.Control
                           type="text"
                           defaultValue={adresa}
@@ -204,9 +206,9 @@ function CustomerProfile() {
                             onChange={handleImageUpload}
                         />
                     </Form.Group>
-                    </Form>
+                    </Form.Group>
                   ) : (
-                    <div className="stack" tokens={{ childrenGap: 20 }}>
+                    <div className="stack-card" tokens={{ childrenGap: 10 }}>
                         <div className="profile-image">
                     <Image
                       src={slika || "placeholder-image-url"}
@@ -215,24 +217,30 @@ function CustomerProfile() {
                       height={100}
                     />
                   </div>
-                      <div className="gray-text py-2">
-                        Name: <span className="font-bold">{ime}</span>
-                      </div>
-                      <div className="gray-text py-2">Lastname: {prezime}</div>
-                      <div className="gray-text py-2">
-                        Korisničko ime: {kIme}
-                      </div>
-                      <div className="gray-text py-2">Email: {emailAdresa}</div>
-                      <div className="gray-text py-2">DOB: {datumRodjenja}</div>
-                      <div className="gray-text py-2">Address: {adresa}</div>
-                      <div className="gray-text py-2">
-                        <div className="gray-text">
+                      <div className="gray-text">Name: {ime}</div>
+                      <div className="gray-text">Lastname: {prezime}</div>
+                      <div className="gray-text">Username: {kIme}</div>
+                      <div className="gray-text">Email: {emailAdresa}</div>
+                      <div className="gray-text">DOB: {datumRodjenja}</div>
+                      <div className="gray-text">Address: {adresa}</div>
+                      <div className="gray-text">
+                        <span className="gray-text">
                           {tip === 2
-                            ? "Role : Admin"
+                            ? "Role : admin"
                             : tip === 1
-                            ? "Role : Seller"
-                            : "Role : Customer"}
-                        </div>
+                            ? "Role : prodavac"
+                            : "Role : kupac"}
+                        </span>
+                      </div>
+                      <div className="gray-text">
+                        Status:
+                        {status == 0 ? (
+                          <Clock16Filled className="pending-icon" />
+                        ) : status == 1 ? (
+                          <CheckboxChecked16Filled className="accepted-icon" />
+                        ) : status == -1 ? (
+                          <BugFilled className="rejected-icon" />
+                        ) : null}
                       </div>
                     </div>
                   )}
@@ -240,7 +248,6 @@ function CustomerProfile() {
                 {isEditMode && (
                   <div className="submit-button-container">
                     <Button
-                      className="primary-button"
                       onClick={handleSubmit}
                       styles={{ root: { marginBottom: "20px" } }} // Apply margin-bottom directly to the button
                     >
@@ -255,7 +262,6 @@ function CustomerProfile() {
           </div>
         </Col>
       </Row>
-
       <Dialog
         hidden={!isDialogVisible}
         onDismiss={() => setIsDialogVisible(false)}
@@ -269,4 +275,4 @@ function CustomerProfile() {
   );
 }
 
-export default CustomerProfile;
+export default SellerProfile;

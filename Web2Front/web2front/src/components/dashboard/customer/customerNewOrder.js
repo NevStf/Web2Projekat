@@ -16,6 +16,7 @@ import { postOrders } from "../../../services/orderService";
 import AdminHeader from "../admin/adminHeader";
 import CustomerSidebar from "./customerSidebar";
 import { Row, Col, Container } from "react-bootstrap";
+import { Modal } from "@fluentui/react";
 
 function CustomerNewOrder() {
   const { cartItems, setCartItems } = useContext(CartContext);
@@ -23,10 +24,11 @@ function CustomerNewOrder() {
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
   const [total, setTotal] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+ 
   const [addressError, setAddressError] = useState(false); // New state for address validation error
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     let calculatedTotal = 0;
@@ -64,12 +66,15 @@ function CustomerNewOrder() {
 
     try {
       const response = await postOrders(token, orderData);
-        console.log(orderData)
+      
+       
+       
       if (response.ok) {
-        setMessage("Your purchase is saved!");
-        setIsModalOpen(true); // Show success modal
+        const info = await response.json();
+        setMessage("Your purchase is saved!\nIt will be delivered in the next "+info.vremeDostave+"h");
+        setShowModal(true);
         setTimeout(() => {
-          setIsModalOpen(false); // Hide the modal after 3 seconds
+            setShowModal(false);
           // Reset cart items to initial values
           setCartItems({});
           // Redirect to /customer-dashboard
@@ -77,10 +82,10 @@ function CustomerNewOrder() {
         }, 3000);
       } else {
         setMessage("There is no enough quantity!");
-        setIsModalOpen(true);
+        setShowModal(true);
         // Show success modal
         setTimeout(() => {
-          setIsModalOpen(false);
+            setShowModal(false);
         }, 3000);
       }
     } catch (error) {
@@ -110,7 +115,7 @@ function CustomerNewOrder() {
 
   return (
     <div className="container">
-      <AdminHeader />
+      <CustomerHeader />
       <Row>
         <Col md={3}>
           <CustomerSidebar />
@@ -120,7 +125,7 @@ function CustomerNewOrder() {
             <div className="cart-items-container mx-auto pt-5">
               {Object.values(cartItems).map((item) => (
                 <div key={item.product.id} className="cart-item">
-                  <h3 className="cart-item-name">{item.product.name}</h3>
+                  <h3 className="cart-item-name">{item.product.naziv}</h3>
                   <div className="cart-item-details">
                     <p className="cart-item-quantity pt-2">Količina:</p>
                     <div className="quantity-controls">
@@ -180,57 +185,25 @@ function CustomerNewOrder() {
                 >
                   Order with delivery
                 </Button>
-                {/* <PayPalScriptProvider
-                  options={{
-                    "client-id":
-                      "ASKivSyljrEX6uH_G44ZhkU3UPkBauRXav3sW-8ufZDjcgE7WESD--KcFIfHJ4pXbppKX8H6w6Ac8A12",
-                  }}
-                >
-                  <PayPalButtons
-                    className="w-100"
-                    forceReRender={[address]}
-                    createOrder={(data, actions) => {
-                      return actions.order.create({
-                        purchase_units: [
-                          {
-                            amount: {
-                              value: (total / 100).toString(),
-                            },
-                          },
-                        ],
-                      });
-                    }}
-                    onApprove={(data, actions) => {
-                      return actions.order
-                        .capture()
-                        .then((details) => {
-                          console.log(details);
-                          handleCheckout();
-                        })
-                        .catch((error) => {
-                          setMessage("Not enough cash to do the purchase!");
-                          setIsModalOpen(true);
-                        });
-                    }}
-                    onError={(err) => {
-                      console.log(err);
-                    }}
-                  />
-                </PayPalScriptProvider> */}
               </div>
             </div>
           ) : (
-            <p className="empty-cart-message">Your cart is empty!</p>
+            <div className="cart-items-container mx-auto pt-5"><p className="empty-cart-message">Your cart is empty!</p></div>
+            
           )}
         </Col>
       </Row>
 
-      {/* Success Modal */}
-      {isModalOpen && (
-        <div className="modal">
-          <h3>{message}</h3>
+
+      <Modal
+        isOpen={showModal}
+        onDismiss={() => setShowModal(false)}
+        isBlocking={false}
+      >
+        <div className="modal-content">
+          <h3 className="modal-text">{message}</h3>
         </div>
-      )}
+      </Modal>
     </div>
   );
 }

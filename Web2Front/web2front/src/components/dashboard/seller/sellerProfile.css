@@ -16,7 +16,7 @@
     border-radius: 4px;
     text-align: left;
     max-width: 600px; /* Increased the max-width to match register form */
-    margin-top: 100px;
+    margin: 100px auto; /* Updated margin to auto and added auto for horizontal centering */
     animation: fadeIn 0.5s ease-in;
   }
   @keyframes fadeIn {
@@ -26,6 +26,24 @@
     to {
       opacity: 1;
     }
+  }
+  
+  .stack-card {
+    display: flex;
+    flex-flow: column nowrap;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+  }
+  
+  .document-card {
+    -webkit-font-smoothing: antialiased;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(237, 235, 233);
+    max-width: 320px;
+    min-width: 206px;
+    position: relative;
+    user-select: none;
   }
   
   .card-header {
@@ -49,6 +67,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    background-color: white;
   }
   
   .edit-button:hover .edit-icon {
@@ -58,6 +77,8 @@
   .edit-icon {
     margin-right: 5px;
     color: #0078d4;
+    background-color: white;
+    padding-right: 10px;
     font-size: 16px;
     vertical-align: middle;
   }
@@ -133,11 +154,6 @@
     margin-right: 5px;
   }
   
-  .primary-button {
-    background-color: gray !important;
-    border: none;
-  }
-  
   .date-input {
     width: 100%;
     padding: 6px 10px;
@@ -158,7 +174,23 @@
       color: #0078d4;
     }
   }
+  .pending-icon {
+    color: orange;
+    margin-left: 10px;
+    margin-bottom: -4px;
+  }
+  .accepted-icon {
+    color: green;
+    margin-left: 10px;
+    margin-bottom: -4px;
+  }
+  .rejected-icon {
+    color: red;
+    margin-left: 10px;
+    margin-bottom: -4px;
+  }
 
+  
   .profile-image img{
     object-fit: cover;
   }

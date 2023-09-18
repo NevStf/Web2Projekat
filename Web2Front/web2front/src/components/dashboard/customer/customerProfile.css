@@ -60,3 +60,6 @@
     box-sizing: border-box;
   }
   
+  .profile-image img{
+    object-fit: cover;
+  }

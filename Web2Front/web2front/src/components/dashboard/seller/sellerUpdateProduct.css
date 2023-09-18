@@ -1,0 +1,86 @@
+.update-product-container {
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .update-product-container .form-fields {
+    display: grid;
+    gap: 16px;
+  }
+  
+  .update-product-container .ms-TextField {
+    width: 100%;
+  }
+  
+  .update-product-container .ms-TextField-fieldGroup {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    height: 32px;
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+  
+  .update-product-container .ms-TextField-fieldGroup:hover,
+  .update-product-container .ms-TextField-fieldGroup:focus {
+    border-color: #0078d4;
+  }
+  
+  .update-product-container .ms-TextField-label {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .update-product-container .ms-TextField-errorMessage {
+    font-size: 14px;
+    color: #ff0000;
+  }
+  
+  .update-product-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .update-product-container .submit-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    padding: 20px;
+    background-color: #fff;
+    animation: fadeInOut 1s ease-in-out;
+  }
+  
+  .modal-text {
+    color: #0078d4;
+    text-align: center;
+  }
+  
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  

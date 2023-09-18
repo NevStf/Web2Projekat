@@ -49,11 +49,12 @@ namespace Web2Projekat.Controllers
         [HttpGet("prodavci")]
         public async Task<IActionResult> GetAllProdavci()
         {
+            DateTime now = DateTime.Now;
             string korisnik = "hehexD";
             try
             {
                 var porudzbine = await _porudzbinaService.DobaviSveProdavce(korisnik);
-                var porudzbineDtos = porudzbine.Where(x => x.VremeDostave > 0);
+                var porudzbineDtos =  porudzbine.Where(x => DateTime.Compare(x.DatumPorucivanja.AddSeconds(x.VremeDostave * 60 * 60), now) > 0);
                 return Ok(porudzbineDtos);
             }
             catch (Exception ex)
@@ -67,11 +68,22 @@ namespace Web2Projekat.Controllers
         public async Task<IActionResult> GetAllStariProdavci()
         {
             string prodavac = "hehexD";
+            DateTime now = DateTime.Now;
             try
             {
+
                 var porudzbine = await _porudzbinaService.DobaviSveProdavce(prodavac);
-                var porudzbineDtos = porudzbine.Where(x => x.VremeDostave <= 0);
-                return Ok(porudzbineDtos);
+                try
+                {
+                    var porudzbineDtos = porudzbine.Where(x => DateTime.Compare(now, x.DatumPorucivanja.AddSeconds(x.VremeDostave * 60 * 60)) > 0);
+                    return Ok(porudzbineDtos);
+                }
+                catch (Exception e) {
+                    Console.WriteLine("ASDASDSADASD");
+                }
+
+                return Ok();
+
             }
             catch (Exception ex)
             {
@@ -93,13 +105,14 @@ namespace Web2Projekat.Controllers
                 {
                     return BadRequest(porudzbinaRetVal.Exception.InnerException.Message);
                 }
+                return Ok(new { StatusCode = 200, VremeDostave = porudzbinaRetVal.Result.VremeDostave });
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            return Ok("Uspesno kreirana porudzbina.");
+            return Ok(new { StatusCode = 200, Message = "Uspesno izmenjen korisnik." });
         }
 
         [HttpPut("{id:int}")]

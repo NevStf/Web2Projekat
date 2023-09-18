@@ -1,0 +1,155 @@
+.orders-page {
+    padding: 20px;
+  }
+  
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 150px;
+  }
+  
+  .order-card {
+    width: 250px;
+    height: auto;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px;
+    animation: fadeIn 0.5s ease-in;
+    color: #0078d4;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .order-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  
+  .order-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .order-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .order-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 150px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .order-item:hover {
+    background-color: #f3f3f3;
+  }
+  
+  .item-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .view-details-button {
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    cursor: pointer;
+    align-self: center;
+  }
+  
+  .view-details-button:hover {
+    background-color: #ffffff;
+    color: #0078d4;
+    border: none;
+  }
+  
+  .dialog-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dialog-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .dialog-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 150px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .dialog-item .item-details {
+    margin-top: 10px;
+  }
+  
+  .dialog-item .item-details .ms-DocumentCardTitle {
+    white-space: normal !important;
+  }
+  
+  .dialog-item .item-details .ms-DocumentCardTitle .ms-Link {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .dialog-item .item-details .ms-DocumentCardDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .dialog-item .item-details .ms-DocumentCardDetails .ms-Text {
+    margin-bottom: 5px;
+  }
+  
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  

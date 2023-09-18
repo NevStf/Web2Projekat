@@ -48,7 +48,7 @@ function CustomerMyOrders() {
 
   return (
     <div className="container">
-      <AdminHeader />
+      <CustomerHeader />
       <Row>
         <Col md={3}>
           <CustomerSidebar />

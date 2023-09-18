@@ -1,0 +1,81 @@
+.all-products-container {
+    padding: 16px;
+  }
+  
+  .product-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #f5f5f5;
+  }
+  
+  .product-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .product-image {
+    margin-right: 16px;
+  }
+  
+  .product-details {
+    flex: 1;
+  }
+  
+  .product-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .edit-button {
+    background-color: orange;
+    margin-right: 8px;
+    border: none;
+    transition: background-color 0.5s ease;
+  }
+  
+  .edit-button:hover {
+    background-color: rgb(122, 67, 0);
+    color: rgb(255, 201, 101);
+    border: none;
+  }
+  
+  .delete-button {
+    background-color: red;
+    border: none;
+    transition: background-color 0.5s ease;
+  }
+  
+  .delete-button:hover {
+    background-color: rgb(59, 0, 0);
+    color: lightcoral;
+    border: none;
+  }
+  
+  .add-product-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+  }
+  
+  .add-product-button {
+    background-color: #0078d4;
+    color: white;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-product-button:hover {
+    background-color: #005a9e;
+  }
+  
