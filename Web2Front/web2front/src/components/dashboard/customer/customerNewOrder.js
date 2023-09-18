@@ -34,7 +34,7 @@ function CustomerNewOrder() {
         calculatedTotal += item.product.cena * item.quantity;
       });
     }
-    setTotal(calculatedTotal + 120);
+    setTotal(calculatedTotal + 200);
   }, [cartItems]);
 
   const handleCheckout = async () => {
