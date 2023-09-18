@@ -67,12 +67,11 @@ namespace Web2Projekat.Controllers
             }
 
             DateTime now = DateTime.Now;
-            string korisnik = "hehexD";
             try
             {
                 if (tip=="1" || tip=="2")
                 {
-                    var porudzbine = await _porudzbinaService.DobaviSveProdavce(korisnik);
+                    var porudzbine = await _porudzbinaService.DobaviSveProdavce(korisnickoIme);
                     var porudzbineDtos = porudzbine.Where(x => DateTime.Compare(x.DatumPorucivanja.AddSeconds(x.VremeDostave * 60 * 60), now) > 0);
                     return Ok(porudzbineDtos);
                 }
@@ -101,7 +100,7 @@ namespace Web2Projekat.Controllers
                 if (tip == "1" || tip == "2")
                 {
                     var porudzbine = await _porudzbinaService.DobaviSveProdavce(korisnickoIme);
-                    var porudzbineDtos = porudzbine.Where(x => DateTime.Compare(now, x.DatumPorucivanja.AddSeconds(x.VremeDostave * 60 * 60)) > 0);
+                    var porudzbineDtos = porudzbine.Where(x => DateTime.Compare(now, x.DatumPorucivanja.AddSeconds(x.VremeDostave * 60 * 60)) < 0);
                     return Ok(porudzbineDtos);
                 }
                 return Ok("No orders found");
