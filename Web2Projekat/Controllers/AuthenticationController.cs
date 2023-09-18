@@ -185,6 +185,47 @@ namespace Web2Projekat.Controllers
         }
 
         [JwtUserAuthorization]
+        [HttpPut("update-pass")]
+        public async Task<IActionResult> UpdatePassword(PromenaLozinkeForma forma)
+        {
+            var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (korisnickoIme == "")
+            {
+                return Unauthorized("Morate se ulogovati!");
+            }
+            try
+            {
+                try
+                {
+                    var v = await _authService.IzmeniLozinku(forma, korisnickoIme);
+                    if (!v)
+                    {
+                        return BadRequest(new { StatusCode = 400, Message = "Uneta email adresa je u upotrebi." });
+                    }
+                    return Ok(new { StatusCode = 200, Message = "Uspesno izmenjen korisnik." });
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.Equals("Konekcija sa bazom nije ok."))
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError);
+                    }
+
+                    return BadRequest(new { StatusCode = 400, Message = e.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+
+        }
+
+
+
+
+        [JwtUserAuthorization]
         [HttpPost("verifikuj/{korisnickoIme}")]
         public async Task<IActionResult> Verifikuj([FromRoute] string korisnickoIme, int status)
         {

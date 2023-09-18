@@ -10,7 +10,7 @@ namespace Web2Projekat.Interfaces
         Task<string> Registracija(RegistracionaForma forma);
         Task<string> Autentikacija(PrijavaForma forma);
         Task<bool> IzmeniKorisnika(RegistracionaForma forma, string KIme);
-       
+        Task<bool> IzmeniLozinku(PromenaLozinkeForma forma, string KIme);
 
     }
 }

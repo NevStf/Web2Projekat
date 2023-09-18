@@ -15,7 +15,7 @@
     padding: 20px;
     border-radius: 4px;
     text-align: left;
-    max-width: 600px; /* Increased the max-width to match register form */
+    /*max-width: 600px;  Increased the max-width to match register form */
     margin: 100px auto; /* Updated margin to auto and added auto for horizontal centering */
     animation: fadeIn 0.5s ease-in;
   }

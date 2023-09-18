@@ -16,6 +16,7 @@ import {
 import { Dialog, DialogType, Image } from "@fluentui/react";
 import { Users, usersUpdate } from "../../../services/userService";
 import SellerHeader from "./sellerHeader";
+import { userChangePass } from "../../../services/authService";
 
 function SellerProfile() {
   const { token } = useContext(AuthContext);
@@ -77,6 +78,30 @@ function SellerProfile() {
     reader.readAsDataURL(file);
   };
 
+  const [lozinka, setLozinka] = useState("");
+  const [novaLozinka, setNovaLozinka] = useState("");
+  const [novaPotvrda, setNovaPotvrda] = useState("");
+  const handlePassChange = async () =>{
+    const formData = {
+      lozinka,
+      novaLozinka,
+      novaPotvrda
+    };
+
+    try{
+      const response = await userChangePass(token, formData);
+      if (response.ok){
+        navigate('/login')
+      }
+      else{
+        console.log("Error:");
+      }
+    }catch(error){
+      console.log("Error:", error);
+    }
+
+  }
+
   const handleSubmit = async () => {
     const formData = {
       ime,
@@ -120,7 +145,7 @@ function SellerProfile() {
         <Col sm={9}>
           <div className="card documentcardtitle">
             {userProfile ? (
-              <div className="">
+              <div className="pt-5">
                 <div className="card-header">
                   <h3 className="card-title"> User Profile</h3>
                   <div className="ms-3 cursor-pointer">
@@ -204,7 +229,7 @@ function SellerProfile() {
                     </Form.Group>
                     </Form.Group>
                   ) : (
-                    <div className="stack-card" tokens={{ childrenGap: 10 }}>
+                    <div className="stack" tokens={{ childrenGap: 10 }}>
                         <div className="profile-image">
                     <Image
                       src={slika || "placeholder-image-url"}
@@ -238,6 +263,43 @@ function SellerProfile() {
                           <BugFilled className="rejected-icon" />
                         ) : null}
                       </div>
+
+                      <hr></hr>
+                      <h3>Change password</h3>
+                      <Form className="stack" style={{ gap: "10px" }}>
+                    <div>
+                        <Form.Label className="gray-text">Old Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={lozinka}
+                          onChange={(event) => setLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaLozinka}
+                          onChange={(event) => setNovaLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">Confirm New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaPotvrda}
+                          onChange={(event) => setNovaPotvrda(event.target.value)}
+                        />
+                      </div>
+
+                    </Form>
+                    <Button
+                      className="primary-button"
+                      onClick={handlePassChange}
+                      styles={{ root: { marginBottom: "20px" } }} 
+                    >
+                      Save
+                    </Button>
                     </div>
                   )}
                 </div>

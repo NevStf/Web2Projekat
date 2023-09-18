@@ -11,6 +11,7 @@ import { usersUpdate, Users } from "../../../services/userService";
 import CustomerSidebar from "./customerSidebar";
 import { Row, Col } from "react-bootstrap";
 import { ArrowUp16Filled } from "@fluentui/react-icons";
+import { userChangePass } from "../../../services/authService";
 
 function CustomerProfile() {
   const { token } = useContext(AuthContext);
@@ -25,6 +26,8 @@ function CustomerProfile() {
   const [slika, setImgPath] = useState("");
   const [datumRodjenja, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,6 +75,31 @@ function CustomerProfile() {
     };
     reader.readAsDataURL(file);
   };
+
+  const [lozinka, setLozinka] = useState("");
+  const [novaLozinka, setNovaLozinka] = useState("");
+  const [novaPotvrda, setNovaPotvrda] = useState("");
+  const handlePassChange = async () =>{
+    const formData = {
+      lozinka,
+      novaLozinka,
+      novaPotvrda
+    };
+
+    try{
+      const response = await userChangePass(token, formData);
+      if (response.ok){
+        navigate('/login')
+      }
+      else{
+        console.log("Error:");
+      }
+    }catch(error){
+      console.log("Error:", error);
+    }
+
+  }
+
   const handleSubmit = async () => {
     
     const formData = {
@@ -129,6 +157,7 @@ function CustomerProfile() {
                 </div>
                 <div className="pt-5">
                   {isEditMode ? (
+                    
                     <Form className="stack" style={{ gap: "10px" }}>
                       <div>
                         <Form.Label className="gray-text">Name:</Form.Label>
@@ -200,16 +229,17 @@ function CustomerProfile() {
                         />
                     </Form.Group>
                     </Form>
+                    
                   ) : (
                     <div className="stack" tokens={{ childrenGap: 20 }}>
                         <div className="profile-image">
-                    <Image
-                      src={slika || "placeholder-image-url"}
-                      alt="Profile Image"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
+                      <Image
+                        src={slika || "placeholder-image-url"}
+                        alt="Profile Image"
+                        width={100}
+                        height={100}
+                      />
+                      </div>
                       <div className="gray-text py-2">
                         Name: <span className="font-bold">{ime}</span>
                       </div>
@@ -229,6 +259,43 @@ function CustomerProfile() {
                             : "Role : Customer"}
                         </div>
                       </div>
+                      <hr></hr>
+                      <h3>Change password</h3>
+                      <Form className="stack" style={{ gap: "10px" }}>
+                    <div>
+                        <Form.Label className="gray-text">Old Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={lozinka}
+                          onChange={(event) => setLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaLozinka}
+                          onChange={(event) => setNovaLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">Confirm New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaPotvrda}
+                          onChange={(event) => setNovaPotvrda(event.target.value)}
+                        />
+                      </div>
+
+                    </Form>
+                    <Button
+                      className="primary-button"
+                      onClick={handlePassChange}
+                      styles={{ root: { marginBottom: "20px" } }} 
+                    >
+                      Save
+                    </Button>
+
                     </div>
                   )}
                 </div>

@@ -31,3 +31,14 @@ export const userLogin = async (korisnickoIme, lozinka) => {
       body: JSON.stringify(formData),
     });
   };
+
+  export const userChangePass = async (token, formData) => {
+    return fetch(process.env.REACT_APP_PASS_UPDATE_ENDPOINT, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Token: token,
+      },
+      body: JSON.stringify(formData),
+    });
+  };

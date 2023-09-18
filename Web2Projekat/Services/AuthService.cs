@@ -107,6 +107,31 @@ namespace Web2Projekat.Services
             }
         }
 
+        public async Task<bool> IzmeniLozinku(PromenaLozinkeForma forma, string KIme)
+        {
+            try
+            {
+                Korisnik kor = await _korisnikService.DobaviKorisnika(KIme);
+                if (kor == null)
+                {
+                    throw new Exception(String.Format("Korisnik sa Korisnickim imenom {0} ne postoji!", KIme));
+                }
+
+                if (LozinkaMatch(forma.Lozinka, kor.Lozinka) && forma.NovaLozinka.Equals(forma.NovaPotvrda)) 
+                {
+                    kor.Lozinka = LozinkaHash(forma.NovaLozinka);
+                }
+
+                await _korisnikService.IzmeniKorisnikaAsync(kor);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Konekcija sa bazom nije ok");
+            }
+        }
+
 
 
 

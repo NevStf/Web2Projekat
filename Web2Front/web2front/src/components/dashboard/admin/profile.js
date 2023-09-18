@@ -11,6 +11,7 @@ import { Users, usersUpdate } from "../../../services/userService";
 import AdminSidebar from "./adminSidebar";
 import { Row, Col } from "react-bootstrap";
 import { ArrowUpload16Filled } from "@fluentui/react-icons";
+import { userChangePass } from "../../../services/authService";
 
 function Profile() {
   const { token } = useContext(AuthContext);
@@ -55,6 +56,7 @@ function Profile() {
   const [error, setError] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
+  
   const handleImageUpload = () => {
     const file = fileInputRef.current.files[0];
     setSelectedFile(file);
@@ -72,7 +74,29 @@ function Profile() {
     setIsEditMode(!isEditMode);
   };
 
- 
+  const [lozinka, setLozinka] = useState("");
+  const [novaLozinka, setNovaLozinka] = useState("");
+  const [novaPotvrda, setNovaPotvrda] = useState("");
+  const handlePassChange = async () =>{
+    const formData = {
+      lozinka,
+      novaLozinka,
+      novaPotvrda
+    };
+
+    try{
+      const response = await userChangePass(token, formData);
+      if (response.ok){
+        navigate('/login')
+      }
+      else{
+        console.log("Error:");
+      }
+    }catch(error){
+      console.log("Error:", error);
+    }
+
+  }
 
   const handleSubmit = async () => {
 
@@ -212,7 +236,7 @@ function Profile() {
                       width={100}
                       height={100}
                     />
-                  </div>
+                    </div>
                     <div className="gray-text py-2">
                       Ime: <span className="font-bold">{ime}</span>
                     </div>
@@ -232,6 +256,43 @@ function Profile() {
                           : "Role : Customer"}
                       </div>
                     </div>
+
+                    <hr></hr>
+                      <h3>Change password</h3>
+                      <Form className="stack" style={{ gap: "10px" }}>
+                    <div>
+                        <Form.Label className="gray-text">Old Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={lozinka}
+                          onChange={(event) => setLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaLozinka}
+                          onChange={(event) => setNovaLozinka(event.target.value)}
+                        />
+                      </div>
+                      <div>
+                        <Form.Label className="gray-text">Confirm New Password:</Form.Label>
+                        <Form.Control
+                          type="text"
+                          defaultValue={novaPotvrda}
+                          onChange={(event) => setNovaPotvrda(event.target.value)}
+                        />
+                      </div>
+
+                    </Form>
+                    <Button
+                      className="primary-button"
+                      onClick={handlePassChange}
+                      styles={{ root: { marginBottom: "20px" } }} 
+                    >
+                      Save
+                    </Button>
                   </div>
                 )}
               </div>
