@@ -1,22 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import {
-  DocumentCard,
-  DocumentCardTitle,
-  DocumentCardDetails,
-  PrimaryButton,
-  Image,
-  Dialog,
-  DialogType,
-  DialogFooter,
-  Stack,
-  Text,
-} from "@fluentui/react";
+import {Image,Dialog,DialogType,DialogFooter} from "@fluentui/react";
 import { Button } from "react-bootstrap";
 import { ordersSellers } from "../../../services/orderService";
 import "./sellerOrders.css";
 import { Row, Col } from "react-bootstrap";
 import { AuthContext } from "../../../context/authContext";
-import AdminHeader from "../admin/adminHeader";
+
 import SellerSidebar from "./sellerSidebar";
 import SellerHeader from "./sellerHeader";
 
@@ -31,7 +20,6 @@ function SellerOrders() {
       try {
         const response = await ordersSellers(token);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
           setOrders(data);
         }

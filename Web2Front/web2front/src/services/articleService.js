@@ -7,7 +7,6 @@
   };
 
   export const apiArticle = async (token) => {
-    console.log(token)
     return fetch(process.env.REACT_APP_ARTICLES_ENDPOINT, {
       headers: {
         Token: token,

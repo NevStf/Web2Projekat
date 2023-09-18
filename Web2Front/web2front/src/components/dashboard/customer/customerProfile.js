@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { Button } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
 import { Dialog, DialogType, Image } from "@fluentui/react";
 import Form from "react-bootstrap/Form";
 import { Pen } from "react-bootstrap-icons";
 import { AuthContext } from "../../../context/authContext";
 import CustomerHeader from "./customerHeader";
-import AdminHeader from "../admin/adminHeader";
 import "./customerProfile.css";
 import { useNavigate } from "react-router-dom";
 import { usersUpdate, Users } from "../../../services/userService";
 import CustomerSidebar from "./customerSidebar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { ArrowUp16Filled } from "@fluentui/react-icons";
 
 function CustomerProfile() {
@@ -33,7 +31,7 @@ function CustomerProfile() {
       try {
         const response = await Users(token);
         const data = await response.json();
-        console.log(data)
+
         if (response.ok) {
           setUserData(data.user);
           setFirstName(data.user.ime);
@@ -90,15 +88,12 @@ function CustomerProfile() {
       status,
     };
 
-    console.log(formData);
-
     try {
       const response = await usersUpdate(token, formData);
 
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Profile updated successfully:", data);
         setUserData(formData);
         setIsEditMode(false);
       } else if (response.status === 400) {
@@ -242,7 +237,7 @@ function CustomerProfile() {
                     <Button
                       className="primary-button"
                       onClick={handleSubmit}
-                      styles={{ root: { marginBottom: "20px" } }} // Apply margin-bottom directly to the button
+                      styles={{ root: { marginBottom: "20px" } }} 
                     >
                       Save
                     </Button>

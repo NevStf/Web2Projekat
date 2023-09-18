@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { Person, CheckCircle, BagCheck } from "react-bootstrap-icons";
 import "./adminSidebar.css";
-// import { AuthContext } from "../../AuthContext";
+
 
 function AdminSidebar() {
-  const navigate = useNavigate();
-//   const { removeToken } = useContext(AuthContext); // Destructure removeToken from AuthContext
-
   return (
     <div className=" navlink">
       <div>

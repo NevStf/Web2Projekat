@@ -1,18 +1,10 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
-import {
-  DocumentCard,
-  DocumentCardTitle,
-  DocumentCardDetails,
-  PrimaryButton,
-  Image,
-  Modal,
-} from "@fluentui/react";
+import {Image,Modal} from "@fluentui/react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./sellerProducts.css";
 import { apiArticle, deleteArticle } from "../../../services/articleService";
 import { AuthContext } from "../../../context/authContext";
-import AdminHeader from "../admin/adminHeader";
 import SellerSidebar from "./sellerSidebar";
 import SellerHeader from "./sellerHeader";
 

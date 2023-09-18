@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
-import { TextField, PrimaryButton, Modal } from "@fluentui/react";
+import { Modal } from "@fluentui/react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import SellerHeader from "./sellerHeader";
 import { ArrowUpload16Filled } from "@fluentui/react-icons";
@@ -78,7 +78,7 @@ function UpdateProduct() {
       cena: Number(cena),
       opis: opis,
       kolicinaNaStanju: Number(kolicinaNaStanju),
-      fotografija: fotografija, // Include the base64 string of the image
+      fotografija: fotografija, 
     };
 
     try {
@@ -87,7 +87,6 @@ function UpdateProduct() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Product updated:", data);
         setShowModal(true);
         setTimeout(() => {
           setShowModal(false);

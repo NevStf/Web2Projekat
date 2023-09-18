@@ -4,12 +4,10 @@ import { useNavigate } from "react-router-dom";
 import SellerHeader from "./sellerHeader";
 import Form from "react-bootstrap/Form";
 import { Button } from "react-bootstrap";
-import { PlusSquare } from "react-bootstrap-icons";
 import "./sellerNewProduct.css";
 import { ArrowUpload16Filled } from "@fluentui/react-icons";
 import { AuthContext } from "../../../context/authContext";
 import { postProduct } from "../../../services/articleService";
-import AdminHeader from "../admin/adminHeader";
 import SellerSidebar from "./sellerSidebar";
 import { Col, Row } from "react-bootstrap";
 
@@ -19,7 +17,7 @@ function SellerNewProduct() {
   const [naziv, setName] = useState("");
   const [cena, setPrice] = useState("");
   const [opis, setDescription] = useState("");
-  const [fotografija, setImgSrc] = useState(""); // Declare imgSrc state variable here
+  const [fotografija, setImgSrc] = useState(""); 
   const [kolicinaNaStanju, setQuantityInStock] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
@@ -77,11 +75,10 @@ function SellerNewProduct() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Product created:", data);
-        setShowModal(true); // Show the success modal
+        setShowModal(true);
         setTimeout(() => {
-          setShowModal(false); // Hide the success modal after 3 seconds
-          navigate("/seller-dashboard"); // Redirect to the desired page
+          setShowModal(false); 
+          navigate("/seller-dashboard");
         }, 3000);
       } else {
         console.log("Error:", data.statusCode);
@@ -165,23 +162,6 @@ function SellerNewProduct() {
                 onChange={handleImageUpload}
               />
             </Form.Group>
-{/* 
-              <div className="">
-                <label htmlFor="productImageInput">
-                  <div className="">
-                    <PlusSquare />
-                    <span>{fotografija ? fileInputRef.current.files[0].name : "Choose Image"}</span>
-                  </div>
-                </label>
-                <input
-                  id="productImageInput"
-                  type="file"
-                  ref={fileInputRef}
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  style={{ display: "none" }}
-                />
-              </div> */}
               <Form.Group>
                 <Form.Label>Quantity in Stock</Form.Label>
                 <Form.Control

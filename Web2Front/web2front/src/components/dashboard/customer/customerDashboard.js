@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { AuthContext } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
-//import "./CustomerProducts.css";
+import "./customerProducts.css";
 import CustomerHeader from "./customerHeader";
 import { PlusCircle } from "react-bootstrap-icons";
 import CartContext from "../../../context/cartContext";
-import AdminHeader from "../admin/adminHeader";
-import { Container, Row, Col } from "react-bootstrap";
-
+import {  Row, Col } from "react-bootstrap";
+import Alert from 'react-bootstrap/Alert';
 import { apiArticle } from "../../../services/articleService";
 import CustomerSidebar from "./customerSidebar";
 
@@ -17,13 +16,11 @@ function CustomerDashboard() {
   const navigate = useNavigate();
   const { setCartItems } = useContext(CartContext);
   const [quantities, setQuantities] = useState([]); // Changed to an array of quantities
-
+  const [alert, setAlert] = useState(false);
   const fetchProducts = useCallback(async () => {
     
     try {
-        console.log("asdasd")
       const response = await apiArticle(token);
-      console.log(response)
       const data = await response.json();
      
       if (response.ok) {
@@ -50,6 +47,11 @@ function CustomerDashboard() {
         quantity: Number(quantity),
       },
     }));
+
+    setAlert(true)
+    setTimeout(() => {
+      setAlert(false); 
+    }, 2000);
   };
 
   const handleQuantityChange = (index, newValue) => {
@@ -66,6 +68,13 @@ function CustomerDashboard() {
     <div className="container">
       <CustomerHeader />
       <Row>
+        <div className="mx-auto pt-5" >
+        <Alert show={alert} variant="success">
+        <Alert.Heading>Success!</Alert.Heading>
+        <p>Successfully added item to cart</p>
+      </Alert>
+        </div>
+
         <Col md={3}>
           <CustomerSidebar />
         </Col>
@@ -105,7 +114,7 @@ function CustomerDashboard() {
                         className="product-quantity-button mx-auto mt-3"
                         onClick={() =>
                           handleAddToCart(product, quantities[index])
-                        } // Use the corresponding quantity from the array
+                        } 
                       />
                     </div>
                   </div>

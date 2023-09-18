@@ -45,7 +45,7 @@ function Login() {
     if (response.ok) {
       const decodedToken = jwt_decode(data.token);
 
-      setAuthToken(data.token); // Change here
+      setAuthToken(data.token); 
 
       const { Role } = decodedToken;
 

@@ -1,6 +1,4 @@
 export const userLogin = async (korisnickoIme, lozinka) => {
-  console.log(process.env.REACT_APP_REGISTER_ENDPOINT);
-  console.log(korisnickoIme, lozinka)
     return fetch(process.env.REACT_APP_LOGIN_ENDPOINT, {
       method: "POST",
       headers: {
@@ -14,7 +12,6 @@ export const userLogin = async (korisnickoIme, lozinka) => {
   };
   
   export const userRegister = async (formData) => {
-    console.log(process.env.REACT_APP_REGISTER_ENDPOINT);
     return fetch(`${process.env.REACT_APP_REGISTER_ENDPOINT}`, {
       method: "POST",
       headers: {
@@ -25,7 +22,6 @@ export const userLogin = async (korisnickoIme, lozinka) => {
   };
  
   export const userLoginGoogle = async (korisnickoIme, lozinka) => {
-
     return fetch(process.env.REACT_APP_REGISTER_ENDPOINT, {
       method: "POST",
       headers: {

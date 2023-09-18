@@ -8,14 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/authContext";
 import {
   Add16Regular,
-  Alert12Filled,
   Subtract16Filled,
 } from "@fluentui/react-icons";
-//import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { postOrders } from "../../../services/orderService";
-import AdminHeader from "../admin/adminHeader";
 import CustomerSidebar from "./customerSidebar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Modal } from "@fluentui/react";
 
 function CustomerNewOrder() {
@@ -25,7 +22,7 @@ function CustomerNewOrder() {
   const [message, setMessage] = useState("");
   const [total, setTotal] = useState(0);
  
-  const [addressError, setAddressError] = useState(false); // New state for address validation error
+  const [addressError, setAddressError] = useState(false); 
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -34,7 +31,6 @@ function CustomerNewOrder() {
     let calculatedTotal = 0;
     if (cartItems) {
       Object.values(cartItems).forEach((item) => {
-        console.log(item)
         calculatedTotal += item.product.cena * item.quantity;
       });
     }
@@ -47,11 +43,11 @@ function CustomerNewOrder() {
     }
 
     if (!address) {
-      setAddressError(true); // Set address validation error to true
+      setAddressError(true); 
       return;
     }
 
-    setAddressError(false); // Reset address validation error to false
+    setAddressError(false); 
 
     const productQuantities = Object.values(cartItems).map((item) => ({
         artikalID: item.product.id,
@@ -74,16 +70,13 @@ function CustomerNewOrder() {
         setMessage("Your purchase is saved!\nIt will be delivered in the next "+info.vremeDostave+"h");
         setShowModal(true);
         setTimeout(() => {
-            setShowModal(false);
-          // Reset cart items to initial values
+            setShowModal(false);       
           setCartItems({});
-          // Redirect to /customer-dashboard
           navigate("/customer-dashboard");
         }, 3000);
       } else {
         setMessage("There is no enough quantity!");
         setShowModal(true);
-        // Show success modal
         setTimeout(() => {
             setShowModal(false);
         }, 3000);
@@ -157,7 +150,7 @@ function CustomerNewOrder() {
                   type="text"
                   value={address}
                   onChange={(event) => setAddress(event.target.value)}
-                  required // Set the address field as required
+                  required 
                   className={
                     addressError
                       ? "checkout-address is-invalid"

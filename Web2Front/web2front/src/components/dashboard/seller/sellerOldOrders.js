@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
   DocumentCard,
-  DocumentCardTitle,
-  DocumentCardDetails,
-  PrimaryButton,
   Image,
   Dialog,
   DialogType,
   DialogFooter,
-  Stack,
-  Text,
 } from "@fluentui/react";
 import { Row, Col } from "react-bootstrap";
 import SellerHeader from "./sellerHeader";
@@ -17,7 +12,6 @@ import { Button } from "react-bootstrap";
 import "./sellerOldOrders.css";
 import { sellersOldOrders } from "../../../services/orderService";
 import { AuthContext } from "../../../context/authContext";
-import AdminHeader from "../admin/adminHeader";
 import SellerSidebar from "./sellerSidebar";
 
 function SellersOldOrders() {
@@ -32,7 +26,6 @@ function SellersOldOrders() {
         
         const response = await sellersOldOrders(token);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
           setOrders(data);
         }

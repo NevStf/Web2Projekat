@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
-import { Person, CheckCircle, BagCheck, DoorOpen } from "react-bootstrap-icons";
+import {  DoorOpen } from "react-bootstrap-icons";
 import "../admin/adminHeader.css";
 import { AuthContext } from "../../../context/authContext";
 
@@ -11,7 +11,6 @@ function AdminHeader(){
 
     const handleLogout = () => {
         removeToken();
-        console.log("token removed");
         navigate("/login");
     };
 

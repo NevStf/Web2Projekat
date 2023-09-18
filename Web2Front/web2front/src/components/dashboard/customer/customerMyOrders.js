@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "../../../context/authContext";
 import CustomerHeader from "./customerHeader";
 import CustomerSidebar from "./customerSidebar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { Dialog, DialogType, DialogFooter } from "@fluentui/react";
 import "./customerMyOrders.css";
 import { apiOrders } from "../../../services/orderService";
-import AdminHeader from "../admin/adminHeader";
+
 
 function CustomerMyOrders() {
   const { token } = useContext(AuthContext);
@@ -21,7 +20,6 @@ function CustomerMyOrders() {
       try {
         const response = await apiOrders(token);
         const data = await response.json();
-        console.log(data)
         if (response.ok) {
           setOrders(data);
         }

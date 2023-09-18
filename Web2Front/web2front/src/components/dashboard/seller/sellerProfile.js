@@ -3,11 +3,10 @@ import { Pen } from "react-bootstrap-icons";
 import Form from "react-bootstrap/Form";
 import { AuthContext } from "../../../context/authContext";
 import "./sellerProfile.css";
-import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import SellerSidebar from "./sellerSidebar";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import {
   Clock16Filled,
   CheckboxChecked16Filled,
@@ -16,7 +15,6 @@ import {
 } from "@fluentui/react-icons";
 import { Dialog, DialogType, Image } from "@fluentui/react";
 import { Users, usersUpdate } from "../../../services/userService";
-import AdminHeader from "../admin/adminHeader";
 import SellerHeader from "./sellerHeader";
 
 function SellerProfile() {
@@ -80,12 +78,11 @@ function SellerProfile() {
   };
 
   const handleSubmit = async () => {
-    console.log(adresa);
     const formData = {
       ime,
       prezime,
       kIme,
-      datumRodjenja: new Date(datumRodjenja).toISOString(), // Convert the date to ISO format for sending to the backend
+      datumRodjenja: new Date(datumRodjenja).toISOString(), 
       tip,
       adresa,
       slika,
@@ -101,11 +98,10 @@ function SellerProfile() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Profile updated successfully:", data);
-        setUserData(formData); // update local userData state with the new data
-        setIsEditMode(false); // exit edit mode
+        setUserData(formData); 
+        setIsEditMode(false);
       } else if (response.status === 400) {
-        setIsDialogVisible(true); // show the dialog
+        setIsDialogVisible(true); 
       } else {
         console.log("Error:", data.statusCode);
       }
@@ -249,7 +245,7 @@ function SellerProfile() {
                   <div className="submit-button-container">
                     <Button
                       onClick={handleSubmit}
-                      styles={{ root: { marginBottom: "20px" } }} // Apply margin-bottom directly to the button
+                      styles={{ root: { marginBottom: "20px" } }} 
                     >
                       Save
                     </Button>

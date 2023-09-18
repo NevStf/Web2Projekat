@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
   DocumentCard,
-  DocumentCardTitle,
-  DocumentCardDetails,
   Image,
   Dialog,
   DialogType,
   DialogFooter,
-  Text,
 } from "@fluentui/react";
 import { AuthContext } from "../../../context/authContext";
 import { Button, Row, Col } from "react-bootstrap";
@@ -23,12 +20,9 @@ function Verification() {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
-  const [dialogAction, setDialogAction] = useState(""); // Stores the selected dialog action: "accept" or "decline"
-  const navigate = useNavigate();
+  const [dialogAction, setDialogAction] = useState(""); 
 
   useEffect(() => {
-
-
     if (token) {
       fetchData();
     }
@@ -38,7 +32,6 @@ function Verification() {
     try {
       const response = await getAllSellers(token);
       const data = await response.json();
-      console.log(data.users)
       if (response.ok) {
         setUsers(data.users);
       }
@@ -69,11 +62,7 @@ function Verification() {
       const response = await usersVerify(selectedUser, status, headers);
 
       if (response.ok) {
-        console.log(
-          `User ${dialogAction === "accept" ? "accepted" : "declined"}:`,
-          selectedUser
-        );
-        setUsers([]) // Reload the page
+        setUsers([]) 
         fetchData()
       } else {
         console.log(

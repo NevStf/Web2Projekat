@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Users, usersUpdate } from "../../../services/userService";
 import AdminSidebar from "./adminSidebar";
 import { Row, Col } from "react-bootstrap";
-import { ArrowUpload16Filled, ImageEditFilled } from "@fluentui/react-icons";
+import { ArrowUpload16Filled } from "@fluentui/react-icons";
 
 function Profile() {
   const { token } = useContext(AuthContext);
@@ -75,12 +75,12 @@ function Profile() {
  
 
   const handleSubmit = async () => {
-    console.log(adresa);
+
     const formData = {
       ime,
       prezime,
       kIme,
-      datumRodjenja: new Date(datumRodjenja).toISOString(), // Convert the date to ISO format for sending to the backend
+      datumRodjenja: new Date(datumRodjenja).toISOString(), 
       tip,
       adresa,
       slika,
@@ -95,11 +95,10 @@ function Profile() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Profile updated successfully:", data);
-        setUserData(formData); // update local userData state with the new data
-        setIsEditMode(false); // exit edit mode
+        setUserData(formData); 
+        setIsEditMode(false); 
       } else if (response.status === 400) {
-        setIsDialogVisible(true); // show the dialog
+        setIsDialogVisible(true); 
       } else {
         console.log("Error:", data.statusCode);
       }
@@ -241,7 +240,7 @@ function Profile() {
                   <Button
                     className="primary-button"
                     onClick={handleSubmit}
-                    styles={{ root: { marginBottom: "20px" } }} // Apply margin-bottom directly to the button
+                    styles={{ root: { marginBottom: "20px" } }} 
                   >
                     Save
                   </Button>

@@ -1,18 +1,15 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { House, Person, Cart, Bag, DoorOpen } from "react-bootstrap-icons";
+import {  useNavigate } from "react-router-dom";
+import {  DoorOpen } from "react-bootstrap-icons";
 import "./customerHeader.css";
 import { AuthContext } from "../../../context/authContext";
 
 function CustomerHeader() {
   const navigate = useNavigate();
-  const { removeToken } = useContext(AuthContext); // Destructure removeToken from AuthContext
+  const { removeToken } = useContext(AuthContext); 
 
   const handleLogout = () => {
-    // Remove the token from local storage and AuthContext
     removeToken();
-    console.log("Token removed"); // Debug line
-    // Redirect to the login page
     navigate("/login");
   };
 

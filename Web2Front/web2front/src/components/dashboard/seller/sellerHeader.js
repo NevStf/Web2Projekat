@@ -1,25 +1,15 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Stack, Text } from "@fluentui/react";
-import {
-  ArrowForwardDownPerson20Filled,
-  ShoppingBag16Filled,
-  BuildingShop16Filled,
-  SignOut20Filled,
-  WindowNew16Filled,
-} from "@fluentui/react-icons";
+import {  useNavigate } from "react-router-dom";
+import {SignOut20Filled} from "@fluentui/react-icons";
 import "../seller/sellerHeader.css";
 import { AuthContext } from "../../../context/authContext";
 
 function SellerHeader() {
   const navigate = useNavigate();
-  const { removeToken } = useContext(AuthContext); // Destructure removeToken from AuthContext
+  const { removeToken } = useContext(AuthContext); 
 
   const handleLogout = () => {
-    // Remove the token from local storage and AuthContext
     removeToken();
-    console.log("Token removed"); // Debug line
-    // Redirect to the login page
     navigate("/login");
   };
 
