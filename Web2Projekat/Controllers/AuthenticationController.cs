@@ -6,6 +6,8 @@ using Web2Projekat.Attributes;
 using Web2Projekat.Interfaces;
 using Web2Projekat.Models;
 using Web2Projekat.Services;
+using Web2Projekat.Validators;
+using FluentValidation.Results;
 
 namespace Web2Projekat.Controllers
 {
@@ -93,11 +95,22 @@ namespace Web2Projekat.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegistracionaForma forma)
         {
-            if (forma.Lozinka == "")
+            KorisnikValidator validator = new KorisnikValidator();
+            List<string> ValidationMessages = new List<string>();
+            var validationResult = validator.Validate(forma);
+            var response = new ResponseModel();
+
+            if (!validationResult.IsValid)
             {
-                forma.Lozinka = "somedummypass98/A";
-                forma.PotvrdaLozinka = "somedummypass98/A";
+                response.IsValid = false;
+                foreach (FluentValidation.Results.ValidationFailure failure in validationResult.Errors)
+                {
+                    ValidationMessages.Add(failure.ErrorMessage);
+                }
+                response.ValidationMessages = ValidationMessages;
+                return BadRequest(new { StatusCode = 400, Message = response.ValidationMessages });
             }
+
 
             try
             {
@@ -156,8 +169,26 @@ namespace Web2Projekat.Controllers
             {
                 return Unauthorized("Morate se ulogovati!");
             }
+
             try
             {
+                IzmeniKorisnikaValidator validator = new IzmeniKorisnikaValidator();
+                List<string> validationMessages = new List<string>();
+                var validationResult = validator.Validate(forma);
+                var response = new ResponseModel();
+
+                if (!validationResult.IsValid)
+                {
+                    response.IsValid = false;
+                    foreach (FluentValidation.Results.ValidationFailure failure in validationResult.Errors)
+                    {
+                        validationMessages.Add(failure.ErrorMessage);
+                    }
+
+                    response.ValidationMessages = validationMessages;
+                    return BadRequest(new { StatusCode = 400, Message = response.ValidationMessages });
+                }
+
                 try
                 {
                     var v = await _authService.IzmeniKorisnika(forma, korisnickoIme);
