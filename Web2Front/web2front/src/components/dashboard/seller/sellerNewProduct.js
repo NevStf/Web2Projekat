@@ -57,8 +57,8 @@ function SellerNewProduct() {
       return;
     }
 
-    if (isNaN(Number(cena)) || isNaN(Number(kolicinaNaStanju))) {
-      setError("Cena i količina moraju biti brojevi!");
+    if (isNaN(Number(cena)) || isNaN(Number(kolicinaNaStanju)) || Number(cena)<=0 ||  Number(kolicinaNaStanju)<=0) {
+      setError("Cena i količina moraju biti pozitivni brojevi!");
       return;
     }
 
@@ -124,10 +124,10 @@ function SellerNewProduct() {
                   onChange={(event) => setPrice(event.target.value)}
                   required
                   isInvalid={
-                    error && (isNaN(Number(cena)) || cena.trim() === "")
+                    error && (isNaN(Number(cena)) || Number(cena)<=0 || cena.trim() === "")
                   }
                 />
-                {error && (isNaN(Number(cena)) || cena.trim() === "") && (
+                {error && (isNaN(Number(cena)) || Number(cena)<=0 || cena.trim() === "") && (
                   <Form.Control.Feedback type="invalid">
                     Price must be a number
                   </Form.Control.Feedback>
@@ -172,12 +172,12 @@ function SellerNewProduct() {
                   required
                   isInvalid={
                     error &&
-                    (isNaN(Number(kolicinaNaStanju)) ||
+                    (isNaN(Number(kolicinaNaStanju)) || Number(kolicinaNaStanju)<=0 ||
                     kolicinaNaStanju.trim() === "")
                   }
                 />
                 {error &&
-                  (isNaN(Number(kolicinaNaStanju)) ||
+                  (isNaN(Number(kolicinaNaStanju)) || Number(kolicinaNaStanju)<=0 ||
                   kolicinaNaStanju.trim() === "") && (
                     <Form.Control.Feedback type="invalid">
                       Quantity in Stock must be a number
