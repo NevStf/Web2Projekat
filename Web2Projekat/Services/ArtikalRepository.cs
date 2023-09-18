@@ -64,7 +64,7 @@ namespace Web2Projekat.Services
                 izmena.Opis = artikal.Opis;
                 izmena.Naziv = artikal.Naziv;
                 izmena.Fotografija = artikal.Fotografija;
-                izmena.Kolicina = artikal.Kolicina;
+                izmena.KolicinaNaStanju = artikal.KolicinaNaStanju;
 
                 await _dbContext.SaveChangesAsync();
                 return izmena;
