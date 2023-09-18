@@ -105,12 +105,12 @@ function App() {
             <Route
               path="/seller-dashboard/old-orders"
               // element={<SellerOrders/>}
-              element={<ProtectedRoute Component={SellerOrders} />}
+              element={<ProtectedRoute Component={SellersOldOrders} />}
             />
             <Route
               path="/seller-dashboard/new-orders"
               // element={<SellersOldOrders/>}
-              element={<ProtectedRoute Component={SellersOldOrders} />}
+              element={<ProtectedRoute Component={ SellerOrders} />}
             />
 
         </Routes>
