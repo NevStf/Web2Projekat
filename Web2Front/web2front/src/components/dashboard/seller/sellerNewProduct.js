@@ -18,9 +18,10 @@ function SellerNewProduct() {
   const [cena, setPrice] = useState("");
   const [opis, setDescription] = useState("");
   const [fotografija, setImgSrc] = useState(""); 
+  const [error, setError] = useState("");
   const [kolicinaNaStanju, setQuantityInStock] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [error, setError] = useState("");
+  
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);

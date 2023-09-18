@@ -3,7 +3,9 @@ using Microsoft.OpenApi.Models;
 using Web2Projekat.Infrastructure.DBContext;
 using Web2Projekat.Interfaces;
 using Web2Projekat.Mapping;
+using Web2Projekat.Middleware;
 using Web2Projekat.Services;
+using Web2Projekat.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SwaggerAPI", Version = "v1" });
-
+    c.OperationFilter<SwaggerHeaderParameter>();
 });
 
 //CORS
@@ -65,6 +67,8 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
+
+app.UseJwtMiddleware();
 
 app.MapControllers();
 

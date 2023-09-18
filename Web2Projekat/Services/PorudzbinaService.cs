@@ -110,9 +110,9 @@ namespace Web2Projekat.Services
         public async Task<bool> OdbijPorudzbinuAsync(int porudzbinaId)
         {
             try
-            {
-                await _porudzbinaRepository.OdbijPorudzbinuAsync(porudzbinaId);
-                return true;
+            { 
+                bool retVal = await _porudzbinaRepository.OdbijPorudzbinuAsync(porudzbinaId);
+                return retVal;
             }
             catch (Exception ex)
             {

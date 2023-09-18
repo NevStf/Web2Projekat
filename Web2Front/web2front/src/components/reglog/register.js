@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useRef, useState }  from 'react';
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -10,9 +10,38 @@ import {
   Field,
   FieldProps,
 } from 'formik';
+import { ArrowUpload16Filled } from '@fluentui/react-icons';
+import { useNavigate } from 'react-router-dom';
 
 
 function Register() {
+  const navigate = useNavigate();
+  const [img, setImgSrc] = useState(""); 
+  const [error, setError] = useState("");
+  const fileInputRef = useRef(null);
+
+  const handleImageUpload = () => {
+    const file = fileInputRef.current.files[0];
+    const reader = new FileReader();
+    
+    reader.onloadend = () => {
+      setImgSrc(reader.result);
+      console.log(reader.result)
+    };
+
+    reader.onerror = () => {
+      console.error("An error occurred while reading the file");
+      setImgSrc("");
+      setError("Failed to read the file");
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setImgSrc("");
+    }
+  };
+
 
   const validationSchema = Yup.object({
     emailAdresa:Yup.string()
@@ -29,7 +58,7 @@ function Register() {
     potvrdaLozinka: Yup.string().oneOf([Yup.ref("lozinka"), null], "Passwords are not matching").required("Password confirmation is required"),
     datumRodjenja: Yup.string().required("date of birth is required"),
     adresa: Yup.string().required("Address is required"),
-    tip: Yup.string().required("User type is required"),      
+    tip: Yup.string().required("User type is required"),     
 })
 
   const formik = useFormik({
@@ -48,7 +77,10 @@ function Register() {
   },
   validationSchema,
   onSubmit: async (values) => {
+    values.slika=img
+    console.log(values)
     await userRegister(values);
+    navigate('/login')
   },
 
   });
@@ -172,7 +204,27 @@ function Register() {
                         </Form.Control>
                         {touched.tip && errors.tip && <div>{errors.tip}</div>}
                       </Form.Group>
-
+                      <Form.Group>
+                        <Form.Label>Choose Image</Form.Label>
+                        <div className="upload-label">
+                          <div className="upload-icon">
+                            <ArrowUpload16Filled />
+                          </div>
+                          <Form.Control 
+                            type="text"
+                            value={img ? fileInputRef.current.files[0].name : "Choose Image"}
+                            readOnly
+                          />
+                        </div>
+                        <Form.Control
+                        controlId="slika"
+                          type="file"
+                          id="slika"
+                          ref={fileInputRef}
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                        />
+                      </Form.Group>
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicCheckbox"

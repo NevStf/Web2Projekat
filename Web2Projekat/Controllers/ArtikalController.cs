@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Web2Projekat.Attributes;
 using Web2Projekat.Dto;
 using Web2Projekat.Interfaces;
 using Web2Projekat.Models;
@@ -19,22 +20,29 @@ namespace Web2Projekat.Controllers
             _mapper = mapper;
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+
             try
             {
-                //if kupac
-                var artikli = await _artikalService.DobaviSveArtikleAsync();
-                var artikliDtos = _mapper.Map<IEnumerable<ArtikalDto>>(artikli);
-                return Ok(artikliDtos);
-
-                //if prodavac
-                //var artikliProdavca = await _artikalService.DobaviArtikleProdavcaAsync(korisnickoIme);
-                //var artikliProdavcaDto = _mapper.Map<IEnumerable<ArtikalDto>>(artikliProdavca);
-                //return Ok(artikliProdavcaDto);
-
+                if (tip == "1")
+                {
+                    //if prodavac
+                    var artikliProdavca = await _artikalService.DobaviArtikleProdavcaAsync(kime);
+                    var artikliProdavcaDto = _mapper.Map<IEnumerable<ArtikalDto>>(artikliProdavca);
+                    return Ok(artikliProdavcaDto);
+                }
+                else 
+                {
+                    //if kupac
+                    var artikli = await _artikalService.DobaviSveArtikleAsync();
+                    var artikliDtos = _mapper.Map<IEnumerable<ArtikalDto>>(artikli);
+                    return Ok(artikliDtos);
+                }
             }
             catch (Exception ex)
             {
@@ -42,15 +50,27 @@ namespace Web2Projekat.Controllers
             }
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpGet("{artikalId}")]
         public async Task<IActionResult> GetById([FromRoute]int artikalId)
         {
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (kime == "") 
+            {
+                return Unauthorized("You must authenticate to create a new product");
+            }
+
             try
             {
-                var artikal = await _artikalService.DobaviPoId(artikalId);
-                var artikalDto = artikal;
-                return Ok(artikalDto);
+                if (tip == "1") 
+                {
+                    var artikal = await _artikalService.DobaviPoId(artikalId);
+                    var artikalDto = artikal;
+                    return Ok(artikalDto);
+                }
+                return Ok("No article found");
+                
             }
             catch (Exception ex)
             {
@@ -58,15 +78,25 @@ namespace Web2Projekat.Controllers
             }
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpPost]
         public async Task<IActionResult> PostArtikal(KreirajArtikalDto dto)
         {
-            string prodavac = "hehexD";
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (kime == "")
+            {
+                return Unauthorized("You must authenticate to create a new product");
+            }
+            if (tip != "1")
+            {
+                return Unauthorized("You must be an seller to create a new product");
+            }
+            
             try
             {
                 var artikal = _mapper.Map<Artikal>(dto);
-                await _artikalService.KreirajArtikalAsync(artikal, prodavac);
+                await _artikalService.KreirajArtikalAsync(artikal, kime);
 
             }
             catch (Exception ex)
@@ -78,10 +108,20 @@ namespace Web2Projekat.Controllers
 
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpPut("/Artikal/update")]
         public async Task<IActionResult> UpdateArtikal(ArtikalDto dto)
         {
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (kime == "")
+            {
+                return Unauthorized("You must authenticate to create a new product");
+            }
+            if (tip != "1")
+            {
+                return Unauthorized("You must be an seller to create a new product");
+            }
             try
             {
                 var artikal = _mapper.Map<Artikal>(dto);
@@ -95,10 +135,20 @@ namespace Web2Projekat.Controllers
             return Ok(new { StatusCode = 200, Message = "Uspesno izmenjen artikal." });
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpDelete("/Artikal/delete/{artikalId}")]
         public async Task<IActionResult> DeleteProduct([FromRoute]int artikalId)
         {
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (kime == "")
+            {
+                return Unauthorized("You must authenticate to create a new product");
+            }
+            if (tip != "1")
+            {
+                return Unauthorized("You must be an seller to create a new product");
+            }
             try
             {
                 await _artikalService.IzbirisiArtikalAsync(artikalId);

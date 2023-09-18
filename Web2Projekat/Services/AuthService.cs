@@ -138,9 +138,10 @@ namespace Web2Projekat.Services
             Korisnik kor = new Korisnik(forma.KIme, hashLozinka, forma.Ime, forma.Prezime, forma.Adresa,forma.EmailAdresa, forma.DatumRodjenja, forma.Tip, forma.Slika);
 
             _korisnikService.SacuvajKorisnika(kor);
-            
-            
-            return "";
+
+            string token = GenerisiTokenJWT(kor);
+
+            return token;
         }
 
         private string LozinkaHash(string lozinka)

@@ -33,3 +33,14 @@ export const ordersSellers = async (token) => {
     });
   };
 
+  export const declineOrder = async (token, orderId) => {
+    return fetch(`${process.env.REACT_APP_DECLINE_ORDER_ENDPOINT}${orderId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Token: token,
+      },
+      
+    });
+  };
+

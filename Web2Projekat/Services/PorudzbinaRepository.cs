@@ -150,11 +150,18 @@ namespace Web2Projekat.Services
 
         public async Task<bool> OdbijPorudzbinuAsync(int porudzbinaId)
         {
+            DateTime now = DateTime.Now;
             var porudzbina = await _dbContext.Porudbine
                 .Where(x => x.Id == porudzbinaId)
                 .Include(x => x.listaArtikla)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+
+            DateTime dt = porudzbina.DatumPorucivanja.AddHours(1);
+            if (DateTime.Compare(now, dt) >= 0)
+            {
+                return false;
+            }
 
             foreach (var a in porudzbina.listaArtikla)
             {

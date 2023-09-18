@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using Web2Projekat.Attributes;
 using Web2Projekat.Interfaces;
 using Web2Projekat.Models;
 using Web2Projekat.Services;
@@ -18,14 +20,14 @@ namespace Web2Projekat.Controllers
             _authService = authService;
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpGet]
         public IActionResult GetKorisnik() 
         {
             var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
             try
             {
-                var response = _authService.DobaviKorisnika("hehexD");
+                var response = _authService.DobaviKorisnika(korisnickoIme);
                 return Ok(new { StatusCode = 200, User = response.Result });
             }
             catch (Exception e)
@@ -38,15 +40,25 @@ namespace Web2Projekat.Controllers
             }
         }
 
+        [JwtUserAuthorization]
         [HttpGet("prodavci")]
         public IActionResult GetProdavce()
         {
             var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (korisnickoIme == "" )
+            {
+                return Unauthorized("You must authenticate as admin to see sellers!");
+            }
             try
             {
-                var response = _authService.DobaviSve();
-                var prodavci = response.Result.Where(x => x.Tip == 1);
-                return Ok(new { StatusCode = 200, Users = prodavci });
+                if (tip == "2")
+                {
+                    var response = _authService.DobaviSve();
+                    var prodavci = response.Result.Where(x => x.Tip == 1);
+                    return Ok(new { StatusCode = 200, Users = prodavci });
+                }
+                return Ok("No user found!");
             }
             catch (Exception e)
             {
@@ -102,13 +114,45 @@ namespace Web2Projekat.Controllers
             }
         }
 
-        //[JwtUserAuthorization]
+        [AllowAnonymous]
+        [HttpPost("register-google")]
+        public async Task<IActionResult> RegisterGoogle(RegistracionaForma forma)
+        {
+            if (forma.Lozinka == "")
+            {
+                forma.Lozinka = "somedummypass98/A";
+                forma.PotvrdaLozinka = "somedummypass98/A";
+            }
+
+            try
+            {
+                var response = _authService.DobaviKorisnika(forma.KIme);
+                if (response.Result == null) 
+                {
+                    string t = await _authService.Registracija(forma);
+                    return Ok(new { StatusCode = 200, Token = t });
+                }
+                var token = await _authService.Autentikacija(new PrijavaForma(forma.KIme, forma.Lozinka) );
+                return Ok(new { StatusCode = 200, Token = token });
+
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Equals("Konekcija sa bazom nije ok"))
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+                return BadRequest(new { StatusCode = 400, Message = e.Message });
+            }
+        }
+
+        [JwtUserAuthorization]
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUserInfo(RegistracionaForma forma)
         {
             var korisnickoIme = (string)HttpContext.Items["id"] ?? string.Empty;
-            var role = (string)HttpContext.Items["Role"] ?? string.Empty;
-            if (korisnickoIme == null)
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (korisnickoIme == "")
             {
                 return Unauthorized("Morate se ulogovati!");
             }
@@ -140,14 +184,24 @@ namespace Web2Projekat.Controllers
 
         }
 
-        //[JwtUserAuthorization]
+        [JwtUserAuthorization]
         [HttpPost("verifikuj/{korisnickoIme}")]
         public async Task<IActionResult> Verifikuj([FromRoute] string korisnickoIme, int status)
         {
+            var kime = (string)HttpContext.Items["id"] ?? string.Empty;
+            var tip = (string)HttpContext.Items["Role"] ?? string.Empty;
+            if (kime == "" )
+            {
+                return Unauthorized("You must authenticate as admin to verify users!");
+            }
             try
             {
-                var users = await _authService.Verifikuj(korisnickoIme, status);
-                return Ok(users);
+                if (tip == "2") 
+                {
+                    var users = await _authService.Verifikuj(korisnickoIme, status);
+                    return Ok(users);
+                }
+                return Ok("No user found!");
             }
             catch (Exception ex)
             {

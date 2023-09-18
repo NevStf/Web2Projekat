@@ -10,7 +10,7 @@ import { AuthContext } from '../../context/authContext';
 
 function Login() {
   const navigate = useNavigate();
-  const {setAuthToken} = useContext(AuthContext);
+  const {setAuthToken,removeToken} = useContext(AuthContext);
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,10 +21,29 @@ function Login() {
     console.log("Encoded JWT ID token: " + response.credential);
     var userObject = jwt_decode(response.credential);
     console.log(userObject);
+   
 
-    handleGoogleLogin(userObject.email, "somedummy98/A");
+    const formData = {
+      emailAdresa: userObject.email,
+      ime: userObject.given_name,
+      prezime: userObject.family_name,
+      kIme: userObject.email,
+      lozinka: "somedummy98/A",
+      potvrdaLozinka: "somedummy98/A",
+      datumRodjenja: new Date().toISOString(),
+      adresa: "/",
+      tip: 0,
+      slika:userObject.picture,
+      status:0,
+    }
+
+
+
+    handleGoogleLogin(formData);
   }
   useEffect(() => {
+    removeToken();
+
     /* global google */
     google.accounts.id.initialize({
       client_id:
@@ -38,8 +57,8 @@ function Login() {
     });
   });
 
-  const handleGoogleLogin = async (username, password) => {
-    const response = await userLoginGoogle(username, password);
+  const handleGoogleLogin = async (formData) => {
+    const response = await userLoginGoogle(formData);
     const data = await response.json();
 
     if (response.ok) {

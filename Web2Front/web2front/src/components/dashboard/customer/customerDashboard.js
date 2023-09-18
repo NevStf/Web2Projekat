@@ -34,7 +34,7 @@ function CustomerDashboard() {
 
   useEffect(() => {
     if (token) {
-      setQuantities([]); // Initialize quantities as an empty array before fetching products
+      setQuantities([]); 
       fetchProducts();
     }
   }, [token, fetchProducts]);
