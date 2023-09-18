@@ -7,6 +7,7 @@ import { apiArticle, deleteArticle } from "../../../services/articleService";
 import { AuthContext } from "../../../context/authContext";
 import SellerSidebar from "./sellerSidebar";
 import SellerHeader from "./sellerHeader";
+import { Users } from "../../../services/userService";
 
 
 function SellerProducts() {
@@ -14,6 +15,7 @@ function SellerProducts() {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const [active, setActive]=useState(false);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -28,8 +30,13 @@ function SellerProducts() {
   }, [token]);
 
   useEffect(() => {
+    
+
     if (token) {
       fetchProducts();
+     
+      amIActive()
+      
     }
   }, [token, fetchProducts]);
 
@@ -38,6 +45,16 @@ function SellerProducts() {
       state: { product },
     });
   };
+
+  const amIActive = async () => {
+    const response = await Users(token);
+    const data = await response.json();
+    if(response.ok){
+      setActive(data.user.status === 1)
+    }else{
+      navigate("/login")
+    }
+  }
 
   const handleDeleteProduct = async (productId) => {
     try {
@@ -69,15 +86,18 @@ function SellerProducts() {
           <SellerSidebar />
         </Col>
         <Col md={9}>
+          
           <div className="add-product-container">
-            <Button
+          {active ? 
+            <Button 
               onClick={handleAddProduct}
               className="add-product-button primary-button"
             >
               {" "}
               Add item
             </Button>
-          </div>
+            : <h3>Only verifyed sellers can create articles.</h3>}
+          </div> 
 
           <div className="product-grid">
             {products.map((product) => (
